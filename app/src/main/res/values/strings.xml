@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">sales-partner</string>
 
-    <array name="spiiner">
-        <item>
+    <string-array name="spiiner">
+        <item >
             1
         </item>
         <item>
@@ -12,5 +12,5 @@
             3
         </item>
 
-    </array>
+    </string-array>
 </resources>
