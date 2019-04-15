@@ -19,7 +19,7 @@ public class Product {
     private int price;
 
     @ColumnInfo(name = "qty")
-    private int quanity;
+    private int quantity;
 
     public int getId() {
         return id;
@@ -46,13 +46,17 @@ public class Product {
 
     // price getter setter
     public int getPrice() { return price; }
-    public void setPrice(int categoryId) {
+    public void setPrice(int price) {
         this.price= price;
     }
 
     // quantity getter setter
-    public int getQuanity() { return quanity; }
-    public void setQuanity(int categoryId) {
-        this.quanity= quanity;
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) {
+        this.quantity= quantity;
+    }
+
+    public String toString(){
+        return this.description + " " + this.price + " q: " + this.quantity;
     }
 }

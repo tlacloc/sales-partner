@@ -16,6 +16,9 @@ public interface ProductDao {
     @Query("SELECT * FROM products")
     List<Product> getAll();
 
+    @Query("SELECT * FROM products WHERE category_id = :catId")
+    List<Product> findByCategory(int catId);
+
     @Insert
     void insertAll(Product product);
 
