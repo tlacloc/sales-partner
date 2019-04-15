@@ -2,12 +2,12 @@
     <string name="app_name">sales-partner</string>
 
     <array name="spiiner">
-        <item >
+        <item>
             1
-    </item>
-    <item>
-        2
-    </item>
+        </item>
+        <item>
+            2
+        </item>
         <item>
             3
         </item>
