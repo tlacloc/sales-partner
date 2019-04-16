@@ -57,6 +57,7 @@ public class Product {
     }
 
     public String toString(){
-        return this.description + " " + this.price + " q: " + this.quantity;
+        int descriptionLength =  20;
+        return this.description.substring(0, descriptionLength) + " " + this.price + " q: " + this.quantity;
     }
 }

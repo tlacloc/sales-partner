@@ -2,6 +2,8 @@ package com.example.sales_partner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,15 +25,35 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
+    // DATA OBJECTS
+    private ProductDao productDao;
+    private CategoryDao categoryDao;
+
+    // VIEW COMPONENTS
+    private Spinner spinner;
+    private EditText searchEditText;
+    // Lista de todos los productos
+    private List<Product> products;
+
+    // Adapters
+    private ArrayAdapter productsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
 
-        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-        CategoryDao dgDao = db.categoryDao();
-        final ProductDao productDao = db.productDao();
+        //AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+        productDao = AppDatabase.getAppDatabase(getApplicationContext()).productDao();
+        categoryDao = AppDatabase.getAppDatabase(getApplicationContext()).categoryDao();
+
+        // VIEW COMPONENTS INIT
+        spinner = findViewById(R.id.Spnrproducts);
+        searchEditText = findViewById(R.id.productSearchTxt);
+        products = new ArrayList<Product>();
+
+        // ADAPTERS
+        productsAdapter = new ArrayAdapter(this, R.layout.text_list, products);
 
         // Categoria todas
         Category todas = new Category();
@@ -41,40 +63,30 @@ public class ProductsActivity extends AppCompatActivity {
         // Lista de Categorias
         List<Category> categories = new ArrayList<Category>();
         categories.add(todas); // se agrega categoria todas
-        categories.addAll(dgDao.getAll()); // se agregan categorias de bd
+        categories.addAll(categoryDao.getAll()); // se agregan categorias de bd
 
-        // Lista de todos los productos
-        final List<Product> products = new ArrayList<Product>();
-
-        final Spinner spinner = findViewById(R.id.Spnrproducts);
-        final EditText searchEditText = findViewById(R.id);
-        final Toolbar toolbarSearch = findViewById(R.id);
 
         ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,categories);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(categoryAdapter);
 
-        final ArrayAdapter productsAdapter = new ArrayAdapter(this, R.layout.text_list, products);
         ListView productList = (ListView) findViewById(R.id.productsList);
         productList.setAdapter(productsAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            // SPINNER SELECTION ACTIONS
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("position: " + position + " " + "id: " + id);
+                // Get category id
                 Category selectedCategory = (Category) parent.getItemAtPosition(position);
                 int catid = selectedCategory.getId();
 
-                //List<Product> p = catid == -1? productDao.getAll() : productDao.findByCategory(catid);
-                List<Product> p = catid == -1? productDao.getAll() : productDao.findByCategory(catid);
-                System.out.println(p);
+                // text to search
+                String query = searchEditText.getText().toString();
 
-                products.clear();
-                products.addAll(p);
-
-                // avisa al adaptador que actualice la vista
-                productsAdapter.notifyDataSetChanged();
+                getProductsByCategoryAndDescription(catid, query);
 
             }
 
@@ -95,11 +107,23 @@ public class ProductsActivity extends AppCompatActivity {
     }
 
 
+    // SEARCH BUTTON ACTION
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search_menu_item:
-                Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
+                // text to search
+                String query = searchEditText.getText().toString();
+
+                // current selected category if any
+                Category selectedCat = (Category)spinner.getSelectedItem();
+                int catId = selectedCat.getId();
+
+                // get products by cat and description
+                getProductsByCategoryAndDescription(catId, query);
+
+                Toast.makeText(this, query, Toast.LENGTH_SHORT).show();
+
                 return true;
 
             default:
@@ -107,8 +131,45 @@ public class ProductsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.products_menu_toolbar, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search_menu_item:
+                Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    /**
+     * Gets Products and updates view
+     * @param catId category ID
+     * @param description the description to search
+     */
+    private void getProductsByCategoryAndDescription( int catId, String description){
+        description = "%" + description + "%";
+        List<Product> p = new ArrayList<Product>();
+
+        if(catId == -1){ // Categoria TODAS
+            p = productDao.findByDescription(description);
+        } else{
+            p = productDao.findByCategoryAndDescription(catId, description);
+        }
+
+        // add products to model
+        this.products.clear();
+        this.products.addAll(p);
+
+        // notify adapter to update view
+        productsAdapter.notifyDataSetChanged();
+    }
 
 }
-
-
-

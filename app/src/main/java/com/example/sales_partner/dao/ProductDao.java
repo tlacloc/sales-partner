@@ -13,14 +13,17 @@ import java.util.List;
 @Dao
 public interface ProductDao {
 
-    @Query("SELECT * FROM products")
+    @Query("SELECT * FROM products ORDER BY description ASC")
     List<Product> getAll();
 
-    @Query("SELECT * FROM products WHERE category_id = :catId")
+    @Query("SELECT * FROM products WHERE category_id = :catId ORDER BY description ASC")
     List<Product> findByCategory(int catId);
 
-    @Query("SELECT * FROM products WHERE description LIKE :desc")
-    List<Product> findByDescription(int desc);
+    @Query("SELECT * FROM products WHERE description LIKE :desc ORDER BY description ASC")
+    List<Product> findByDescription(String desc);
+
+    @Query("SELECT * FROM products WHERE description LIKE :desc AND category_id = :catId ORDER BY description ASC")
+    List<Product> findByCategoryAndDescription(int catId, String desc);
 
     @Insert
     void insertAll(Product product);
