@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -43,9 +44,11 @@ public class ProductsActivity extends AppCompatActivity {
         categories.addAll(dgDao.getAll()); // se agregan categorias de bd
 
         // Lista de todos los productos
-        final List<Product> products = productDao.getAll();
+        final List<Product> products = new ArrayList<Product>();
 
         final Spinner spinner = findViewById(R.id.Spnrproducts);
+        final EditText searchEditText = findViewById(R.id);
+        final Toolbar toolbarSearch = findViewById(R.id);
 
         ArrayAdapter categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,categories);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -19,6 +19,9 @@ public interface ProductDao {
     @Query("SELECT * FROM products WHERE category_id = :catId")
     List<Product> findByCategory(int catId);
 
+    @Query("SELECT * FROM products WHERE description LIKE :desc")
+    List<Product> findByDescription(int desc);
+
     @Insert
     void insertAll(Product product);
 
