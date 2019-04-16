@@ -3,6 +3,7 @@ package com.example.sales_partner;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
+
+    //TAG
+    private static final String TAG = "ProductsActivity";
+
     // DATA OBJECTS
     private ProductDao productDao;
     private CategoryDao categoryDao;
@@ -42,6 +47,7 @@ public class ProductsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
+        Log.d(TAG, "onCreate: ");
 
         //AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
         productDao = AppDatabase.getAppDatabase(getApplicationContext()).productDao();

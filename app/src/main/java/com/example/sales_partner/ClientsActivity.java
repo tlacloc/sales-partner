@@ -3,6 +3,7 @@ package com.example.sales_partner;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class ClientsActivity extends AppCompatActivity {
+
+    //LOG
+    private static final String TAG = "ClientsActivity";
+
     // DATA OBJECTS
     private CustomerDao customerDao;
 
@@ -44,6 +49,7 @@ public class ClientsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clients);
+        Log.d(TAG, "onCreate: ");
 
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
 

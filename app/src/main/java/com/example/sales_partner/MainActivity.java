@@ -23,8 +23,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //TAG
+    private static final String TAG = "MainActivity";
+
+    //VIEW COMPONENTS
     private ImageButton productsButton;
+    private ImageButton assembliesButton;
     private ImageButton customersButton;
+    private ImageButton ordersButton;
+    private ImageButton reportsButton;
 
 
     @Override
@@ -33,27 +40,63 @@ public class MainActivity extends AppCompatActivity {
         Stetho.initializeWithDefaults(this);
 
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: ");
 
+        // VIEW COMPONENTS INIT
         productsButton = findViewById(R.id.mainButtonProducts);
+        assembliesButton = findViewById(R.id.mainButtonAssembly);
         customersButton = findViewById(R.id.mainButtonCustomers);
+        ordersButton = findViewById(R.id.mainButtonOrders);
+        reportsButton = findViewById(R.id.mainButtonReports);
 
+
+        //OnClick Events
         productsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "onClick: productsButton");
                 Intent IntProducts = new Intent(getApplicationContext(),ProductsActivity.class);
                 IntProducts.putExtra("tag","start");
                 startActivity(IntProducts);
 
             }
         });
+        assembliesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: assembliesButton");
+                Intent IntAssemblies = new Intent(getApplicationContext(),AssembliesActivity.class);
+                IntAssemblies.putExtra("tag","start");
+                startActivity(IntAssemblies);
 
+            }
+        });
         customersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IntProducts = new Intent(getApplicationContext(),ClientsActivity.class);
-                IntProducts.putExtra("tag","start");
-                startActivity(IntProducts);
+                Log.d(TAG, "onClick: customersButton");
+                Intent IntCustomers = new Intent(getApplicationContext(),ClientsActivity.class);
+                IntCustomers.putExtra("tag","start");
+                startActivity(IntCustomers);
 
+            }
+        });
+        ordersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: ordersButton");
+                Intent IntOrders = new Intent(getApplicationContext(),OrdersActivity.class);
+                IntOrders.putExtra("tag","start");
+                startActivity(IntOrders);
+            }
+        });
+        reportsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: reportsButton");
+                Intent IntReports = new Intent(getApplicationContext(),ReportsActivity.class);
+                IntReports.putExtra("tag","start");
+                startActivity(IntReports);
             }
         });
 
@@ -66,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(productCategories1);
         System.out.println(productCategories2);
         */
-
-
-
-
 
         //List<ProductCategory> categories = db.productCategoryDao().getAll();
     }

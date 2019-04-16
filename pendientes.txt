@@ -1,0 +1,70 @@
+PENDIENTES POR PANTALLAS
+
+PANTALLA PRINCIPAL: CREATE ACTIVITY [DONE]
+
+	VISTA:
+
+		>landscape del xml
+		>remplazar los dummyes por imagenes correctas
+
+	JAVA:
+		>definir el evento para ir a la pantalla de Ensambles
+		>definir el evento para ir a la pantalla de Ordenes
+		>definir el evento para ir a la pantalla de Reportes
+
+PRODUCTOS: CREATE ACTIVITY [DONE]
+	VISTA:
+		
+		>landscape del xml
+		>mejorar el diseño del listview
+
+	JAVA:
+		>responder al evento de onClick para un objeto del listView
+		
+
+ENSAMBLES: CREATE ACTIVITY [DONE]
+	VISTA:
+
+		>generar el xml
+		>agregar un editText 
+		>agregar un acction item
+		>agregar un listview
+
+		>landscape del xml
+
+	JAVA:
+		
+		>generar un filtrado por el editText
+		>un Onclick en el toolbar para actualizar la búsqueda
+		>listView con descripcion trunca, numero de productos, costo
+		>listView ordenada alfabéticamente
+		>responder al evento de onClick para un objeto del listView
+		
+
+CLIENTES: CREATE ACTIVITY [DONE]
+	VISTA:
+
+		>landscape del xml
+
+	JAVA:
+		
+
+ORDENES:
+	VISTA:
+
+		>landscape del xml
+
+	JAVA:
+		
+
+REPORTEVISTA:
+
+	VISTA:
+
+		>landscape del xml
+
+	JAVA:
+		
+
+
+	
