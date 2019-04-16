@@ -28,7 +28,7 @@ public class Customer {
     @ColumnInfo(name = "phone3")
     private String phone3;
 
-    @ColumnInfo(name = "email")
+    @ColumnInfo(name = "e_mail")
     private String email;
 
     public int getId() {

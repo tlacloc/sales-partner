@@ -24,6 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ImageButton productsButton;
+    private ImageButton customersButton;
 
 
     @Override
@@ -34,10 +35,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         productsButton = findViewById(R.id.mainButtonProducts);
+        customersButton = findViewById(R.id.mainButtonCustomers);
+
         productsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent IntProducts = new Intent(getApplicationContext(),ProductsActivity.class);
+                IntProducts.putExtra("tag","start");
+                startActivity(IntProducts);
+
+            }
+        });
+
+        customersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent IntProducts = new Intent(getApplicationContext(),ClientsActivity.class);
                 IntProducts.putExtra("tag","start");
                 startActivity(IntProducts);
 

@@ -7,12 +7,14 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.ProductDao;
 import com.example.sales_partner.model.Category;
 import com.example.sales_partner.dao.CategoryDao;
+import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Product;
 
-@Database(entities = {Category.class, Product.class}, version = 2)
+@Database(entities = {Category.class, Product.class, Customer.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -177,4 +179,5 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
     public abstract ProductDao productDao();
+    public abstract CustomerDao customerDao();
 }
