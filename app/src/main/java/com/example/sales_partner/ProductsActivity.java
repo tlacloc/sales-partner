@@ -67,6 +67,7 @@ public class ProductsActivity extends AppCompatActivity {
                 products.clear();
                 products.addAll(p);
 
+                // avisa al adaptador que actualice la vista
                 productsAdapter.notifyDataSetChanged();
 
             }
