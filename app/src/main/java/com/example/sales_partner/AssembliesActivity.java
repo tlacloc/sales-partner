@@ -7,7 +7,9 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,6 +36,9 @@ public class AssembliesActivity extends AppCompatActivity {
     // Lista de todos los ensambles
     private List<Assembly> assemblies;
 
+    // Adapters
+    private ArrayAdapter assembliesAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,13 @@ public class AssembliesActivity extends AppCompatActivity {
 
         // VIEW COMPONENTS INIT
         searchEditText = findViewById(R.id.assembliesTxt);
+        assemblies = new ArrayList<Assembly>();
+
+        // ADAPTERS
+        assembliesAdapter = new ArrayAdapter(this, R.layout.text_list, assemblies);
+
+        ListView assembliesList = (ListView) findViewById(R.id.assembliesList);
+        assembliesList.setAdapter(assembliesAdapter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,6 +72,19 @@ public class AssembliesActivity extends AppCompatActivity {
             case R.id.search_menu_item:
                 // text to search
                 String query = searchEditText.getText().toString();
+                query = "%" + query + "%";
+
+                //
+                List<Assembly> a = new ArrayList<Assembly>();
+                a = assemblyDao.findByDescription(query);
+
+                // add products to model
+                this.assemblies.clear();
+                this.assemblies.addAll(a);
+
+                // notify adapter to update view
+                assembliesAdapter.notifyDataSetChanged();
+
 
                 return true;
 

@@ -6,6 +6,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.Assembly;
+import com.example.sales_partner.model.Product;
 
 
 import java.util.List;
@@ -14,6 +15,9 @@ public interface AssemblyDao {
 
     @Query("SELECT * FROM assemblies")
     List<Assembly> getAll();
+
+    @Query("SELECT * FROM assemblies WHERE description LIKE :desc ORDER BY description ASC")
+    List<Assembly> findByDescription(String desc);
 
     @Insert
     void insertAll(Assembly assembly);
