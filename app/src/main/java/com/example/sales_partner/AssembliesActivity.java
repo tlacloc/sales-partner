@@ -10,14 +10,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Assembly;
-import com.example.sales_partner.model.Category;
-import com.example.sales_partner.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;

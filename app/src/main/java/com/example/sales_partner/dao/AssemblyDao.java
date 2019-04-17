@@ -6,7 +6,6 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.Assembly;
-import com.example.sales_partner.model.Product;
 
 
 import java.util.List;
