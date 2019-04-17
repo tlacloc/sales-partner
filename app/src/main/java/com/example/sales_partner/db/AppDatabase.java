@@ -7,16 +7,17 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.ProductDao;
+import com.example.sales_partner.model.Assembly;
 import com.example.sales_partner.model.Category;
 import com.example.sales_partner.dao.CategoryDao;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Product;
 
-@Database(entities = {Category.class, Product.class, Customer.class}, version = 2)
+@Database(entities = {Category.class, Product.class, Assembly.class, Customer.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
-
 
 
     private static AppDatabase INSTANCE = null;
@@ -38,6 +39,16 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO categories (id, description) VALUES (4, 'Tarjeta madre')");
                             db.execSQL("INSERT INTO categories (id, description) VALUES (5, 'Tarjeta de video')");
                             db.execSQL("INSERT INTO categories (id, description) VALUES (6, 'Tarjeta de sonido')");
+
+                            //ASSEMBLIES
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (0, 'Basic #1')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (1, 'Basic #2')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (2, 'Advanced #1')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (3, 'Advanced #2')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (4, 'Professional #1')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (5, 'Professional #2')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (6, 'Gamer #1')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (7, 'Gamer #2')");
 
                             // CUSTOMERS
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (0, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
@@ -178,6 +189,10 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract CategoryDao categoryDao();
+
+    public abstract AssemblyDao assemblyDao();
+
     public abstract ProductDao productDao();
+
     public abstract CustomerDao customerDao();
 }
