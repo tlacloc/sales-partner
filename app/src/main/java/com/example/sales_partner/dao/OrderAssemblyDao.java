@@ -15,7 +15,7 @@ public interface OrderAssemblyDao {
     @Query("SELECT * FROM order_assemblies")
     List<OrderAssembly>getAll();
 
-    @Query("SELECT * FROM order_assemblies WHERE assembly_id LIKE :assId ORDER BY ASC")
+    @Query("SELECT * FROM order_assemblies WHERE assembly_id LIKE :assId")
     List<OrderAssembly>findByAssembly(int assId);
 
     @Insert

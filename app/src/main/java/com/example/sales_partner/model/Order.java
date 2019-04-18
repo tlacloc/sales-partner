@@ -20,7 +20,7 @@ public class Order {
     private int customerId;
 
     @ColumnInfo(name = "date")
-    private Date date;
+    private String date;
 
     @ColumnInfo(name = "change_log")
     private String changeLog;
@@ -49,11 +49,11 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

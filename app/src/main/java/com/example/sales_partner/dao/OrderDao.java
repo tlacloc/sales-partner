@@ -16,14 +16,14 @@ public interface OrderDao {
     @Query("SELECT * FROM orders")
     List<Order> getAll();
 
-    @Query("SELECT * FROM orders LIKE :statId")
+    @Query("SELECT * FROM orders WHERE status_id LIKE :statId")
     List<Order> findByStatus(int statId);
 
-    @Query("SELECT * FROM orders LIKE :custId")
+    @Query("SELECT * FROM orders WHERE customer_id LIKE :custId")
     List<Order> findByCustomer(int custId);
 
-    @Query("SELECT * FROM orders LIKE :date")
-    List<Order> findByDate(Date date);
+    @Query("SELECT * FROM orders WHERE date LIKE :date")
+    List<Order> findByDate(String date);
 
     @Insert
     void insertAll(Order order);

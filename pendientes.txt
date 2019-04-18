@@ -27,7 +27,7 @@ Incluye un EditText para especificar un filtrado por texto. [DONE]
 
 	>Si no se incluye un texto se considera que no se realizará el filtrado por texto. [DONE]
 
-Incluye un ActionItem en el ToolBar con la imagen de una lupa para realizar la búsqueda. 
+Incluye un ActionItem en el ToolBar con la imagen de una lupa para realizar la búsqueda. [DONE]
 
 	> La lista de productos sólo será actualizada al presionar este botón. [DONE]
 
