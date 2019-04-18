@@ -16,6 +16,7 @@ public class Product {
     @ColumnInfo(name = "description")
     private String description;
 
+    @ColumnInfo(name = "price")
     private int price;
 
     @ColumnInfo(name = "qty")
