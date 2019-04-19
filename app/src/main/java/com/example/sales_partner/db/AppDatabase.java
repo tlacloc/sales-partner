@@ -24,15 +24,7 @@ import com.example.sales_partner.model.OrderAssembly;
 import com.example.sales_partner.model.OrderStatus;
 import com.example.sales_partner.model.Product;
 
-@Database(entities = {
-        Category.class,
-        Product.class,
-        Assembly.class,
-        AssemblyProduct.class,
-        OrderAssembly.class,
-        Order.class,
-        OrderStatus.class,
-        Customer.class}, version = 2)
+@Database(entities = {Category.class,Product.class,Assembly.class,AssemblyProduct.class,OrderAssembly.class,Order.class,OrderStatus.class,Customer.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
 

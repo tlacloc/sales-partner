@@ -8,7 +8,6 @@ import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.Order;
 
-import java.util.Date;
 import java.util.List;
 
 @Dao
