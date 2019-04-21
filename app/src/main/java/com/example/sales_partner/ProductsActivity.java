@@ -2,7 +2,6 @@ package com.example.sales_partner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -22,7 +21,6 @@ import com.example.sales_partner.model.Category;
 import com.example.sales_partner.model.Product;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProductsActivity extends AppCompatActivity {
@@ -37,6 +35,7 @@ public class ProductsActivity extends AppCompatActivity {
     // VIEW COMPONENTS
     private Spinner spinner;
     private EditText searchEditText;
+
     // Lista de todos los productos
     private List<Product> products;
 
@@ -63,7 +62,7 @@ public class ProductsActivity extends AppCompatActivity {
 
         // Categoria todas
         Category todas = new Category();
-        todas.setDescription("todas");
+        todas.setDescription("Todas");
         todas.setId(-1);
 
         // Lista de Categorias

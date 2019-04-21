@@ -15,10 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.example.sales_partner.dao.OrderDao;
-import com.example.sales_partner.db.AppDatabase;
+import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.model.Customer;
-import com.example.sales_partner.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +42,8 @@ public class OrdersActivity extends AppCompatActivity {
     private List<Order> orders;
     private ArrayList<StateVO> listVOs;
 
-    //Adapters
-    private ArrayAdapter orderAdapter;
+    // Adapters
+    private ArrayAdapter customersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
