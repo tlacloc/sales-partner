@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.OrderDao;
+import com.example.sales_partner.dao.OrderStatusDao;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
@@ -31,6 +32,8 @@ public class OrdersActivity extends AppCompatActivity {
 
     // DATA OBJECTS
     private OrderDao orderDao;
+    private CustomerDao customerDao;
+    private OrderStatusDao orderStatusDao;
 
     // VIEW COMPONENTS
     private Spinner statusSpnr;
@@ -55,6 +58,8 @@ public class OrdersActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: ");
 
         orderDao = AppDatabase.getAppDatabase(getApplicationContext()).orderDao();
+        customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
+        orderStatusDao = AppDatabase.getAppDatabase(getApplicationContext()).orderStatusDao();
 
         // VIEW COMPONENTS INIT
         statusSpnr = findViewById(R.id.statusOrdersSpnrSelect);
@@ -86,12 +91,32 @@ public class OrdersActivity extends AppCompatActivity {
                 listVOs);
         statusSpnr.setAdapter(spinnerCheckboxAdapter);
 
+
+        //ADDING TODOS AS A OPTION
+        Customer todos = new Customer();
+        todos.setFirstName("Seleccionar");
+        todos.setLastName("todos");
+        todos.setId(-1);
+
+        //LISTA DE CLIENTES
+        List<Customer> customers = new ArrayList<Customer>();
+        customers.add(todos);
+        customers.addAll(customerDao.getAll());
+
+        ArrayAdapter customerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,customers);
+        customerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        customerSpnr.setAdapter(customerAdapter);
+
+        // ADDING ORDERS TO LISTVIEW
         List<Order> o = orderDao.getAll();
         this.orders.clear();
         this.orders.addAll(o);
 
         // notify adapter to update view
         orderAdapter.notifyDataSetChanged();
+
+
     }
     //GENERATE TOOLBAR MENU
     @Override

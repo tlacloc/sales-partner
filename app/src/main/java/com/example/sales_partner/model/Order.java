@@ -64,4 +64,8 @@ public class Order {
     public void setChangeLog(String changeLog) {
         this.changeLog = changeLog;
     }
+
+    public String toString(){
+        return this.date;
+    }
 }
