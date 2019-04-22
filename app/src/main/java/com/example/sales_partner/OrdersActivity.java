@@ -16,7 +16,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderDao;
+import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
+import com.example.sales_partner.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,7 @@ public class OrdersActivity extends AppCompatActivity {
     private ArrayList<StateVO> listVOs;
 
     // Adapters
-    private ArrayAdapter customersAdapter;
+    private ArrayAdapter orderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,8 @@ public class OrdersActivity extends AppCompatActivity {
         orderDao = AppDatabase.getAppDatabase(getApplicationContext()).orderDao();
 
         // VIEW COMPONENTS INIT
-        statusSpnr = findViewById(R.id.categoryOrdersSpnrSelect);
-        customerSpnr = findViewById(R.id.clientOrdersSpnrSelect);
+        statusSpnr = findViewById(R.id.statusOrdersSpnrSelect);
+        customerSpnr = findViewById(R.id.customerOrdersSpnrSelect);
         dateStartCheckBox = findViewById(R.id.checkBoxOrdersStartDate);
         dateStartEditTxt = findViewById(R.id.editTextOrdersStartDate);
         dateEndCheckBox = findViewById(R.id.checkBoxOrdersEndDate);

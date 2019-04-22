@@ -8,23 +8,19 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.sales_partner.dao.AssemblyDao;
-import com.example.sales_partner.dao.AssemblyProductDao;
 import com.example.sales_partner.dao.CustomerDao;
-import com.example.sales_partner.dao.OrderAssemblyDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.dao.OrderStatusDao;
 import com.example.sales_partner.dao.ProductDao;
 import com.example.sales_partner.model.Assembly;
-import com.example.sales_partner.model.AssemblyProduct;
 import com.example.sales_partner.model.Category;
 import com.example.sales_partner.dao.CategoryDao;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
-import com.example.sales_partner.model.OrderAssembly;
 import com.example.sales_partner.model.OrderStatus;
 import com.example.sales_partner.model.Product;
 
-@Database(entities = {Category.class,Product.class,Assembly.class,AssemblyProduct.class,OrderAssembly.class,Order.class,OrderStatus.class,Customer.class}, version = 2)
+@Database(entities = {Category.class,Product.class,Assembly.class,Order.class,OrderStatus.class,Customer.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -307,13 +303,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract AssemblyDao assemblyDao();
 
-    public abstract AssemblyProductDao assemblyProductDao();
-
     public abstract OrderStatusDao orderStatusDao();
 
     public abstract OrderDao orderDao();
 
-    public abstract OrderAssemblyDao orderAssemblyDao();
 
     public abstract ProductDao productDao();
 

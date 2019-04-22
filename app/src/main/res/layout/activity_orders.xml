@@ -93,11 +93,8 @@
     </LinearLayout>
 
     <ListView
-<<<<<<< HEAD
         android:id="@+id/orderList"
-=======
-        android:id="@+id/ordersList"
->>>>>>> se empezaron a declarar los componentes de vista para la activity
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
