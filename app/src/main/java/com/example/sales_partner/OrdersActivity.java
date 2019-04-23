@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersActivity extends AppCompatActivity {
-    
+
     //TAG
     private static final String TAG = "OrdersActivity";
 
@@ -50,6 +51,9 @@ public class OrdersActivity extends AppCompatActivity {
 
     // Adapters
     private ArrayAdapter orderAdapter;
+
+    //Ints (?)
+    private int custId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,7 @@ public class OrdersActivity extends AppCompatActivity {
         orderList.setAdapter(orderAdapter);
 
         // field selection options
-        String[] customerFields = {"Select field","Pendiente", "Cancelado", "Confirmado", "En transito", "Finalizado"};
+        String[] customerFields = {"Select field", "Pendiente", "Cancelado", "Confirmado", "En transito", "Finalizado"};
         listVOs = new ArrayList<>();
 
         for (int i = 0; i < customerFields.length; i++) {
@@ -103,7 +107,7 @@ public class OrdersActivity extends AppCompatActivity {
         customers.add(todos);
         customers.addAll(customerDao.getAll());
 
-        ArrayAdapter customerAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,customers);
+        ArrayAdapter customerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, customers);
         customerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         customerSpnr.setAdapter(customerAdapter);
@@ -116,8 +120,26 @@ public class OrdersActivity extends AppCompatActivity {
         // notify adapter to update view
         orderAdapter.notifyDataSetChanged();
 
+        //CUSTOMER SPINNER
+        customerSpnr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Customer selectedCustomer = (Customer) parent.getItemAtPosition(position);
+
+                custId = selectedCustomer.getId();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
     }
+
     //GENERATE TOOLBAR MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,6 +154,7 @@ public class OrdersActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.search_menu_item:
 
+                onSearchMenuClicked();
 
                 return true;
 
@@ -155,6 +178,7 @@ public class OrdersActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.search_menu_item:
 
+
                 return true;
 
             case R.id.add_menu_item:
@@ -164,5 +188,96 @@ public class OrdersActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onSearchMenuClicked() {
+
+        List<Order> o = new ArrayList<Order>();
+
+        String query = "SELECT * FROM orders";
+
+        String tempQuery = statusStringQueryMaker();
+
+
+        if (custId == -1) { //ALL CUSTOMERS SELECTED
+            //FIND JUST BY STATUS
+        } else {
+
+
+            if (tempQuery == ""){//FIND BY CUSTOMER
+
+            }
+            else{//FIND BY CUSTOMER AND STATUS
+
+            }
+
+
+        }
+
+
+    }
+
+
+    private String statusStringQueryMaker() {
+
+        String selectedStatus = "";
+
+        boolean previousConditions = false;
+
+        for (StateVO i : listVOs) {
+            if (i.isSelected()) {
+                if (previousConditions == false) {
+                    if (i.getTitle().equals("Pendiente")) {
+                        selectedStatus = "'0'";
+                    }
+                    if (i.getTitle().equals("Cancelado")) {
+                        selectedStatus = "'1'";
+                    }
+                    if (i.getTitle().equals("Confirmado")) {
+                        selectedStatus = "'2'";
+                    }
+                    if (i.getTitle().equals("En transito")) {
+                        selectedStatus = "'3'";
+                    }
+                    if (i.getTitle().equals("Finalizado")) {
+                        selectedStatus = "'4'";
+                    }
+                    previousConditions = true;
+                } else {
+                    if (i.getTitle().equals("Pendiente")) {
+                        selectedStatus = selectedStatus + ", '0'";
+                    }
+                    if (i.getTitle().equals("Cancelado")) {
+                        selectedStatus = selectedStatus + ", '1'";
+                    }
+                    if (i.getTitle().equals("Confirmado")) {
+                        selectedStatus = selectedStatus + ", '2'";
+                    }
+                    if (i.getTitle().equals("En transito")) {
+                        selectedStatus = selectedStatus + ", '3'";
+                    }
+                    if (i.getTitle().equals("Finalizado")) {
+                        selectedStatus = selectedStatus + ", '4'";
+                    }
+                }
+            }
+        }
+
+        if (selectedStatus != ""){
+            selectedStatus = "WHERE status_id IN (" + selectedStatus + ")";
+        }
+
+        return selectedStatus;
+    }
+
+    private void updateOrders(List<Order> newOrder) {
+
+        //ADD ORDERS TO MODEL
+        this.orders.clear();
+        this.orders.addAll(newOrder);
+
+        // notify adapter to update view
+        orderAdapter.notifyDataSetChanged();
+
     }
 }

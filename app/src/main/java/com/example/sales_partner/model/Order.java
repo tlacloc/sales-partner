@@ -66,6 +66,6 @@ public class Order {
     }
 
     public String toString(){
-        return this.date;
+        return this.date + this.statusId;
     }
 }
