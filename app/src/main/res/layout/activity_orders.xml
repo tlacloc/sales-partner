@@ -77,18 +77,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
         <CheckBox
             android:id="@+id/checkBoxOrdersEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Seleccionar fecha final de filtrado " />
 
-        <EditText
+        <Button
             android:id="@+id/editTextOrdersEndDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date" />
+            android:onClick="showDatePickerDialog"/>
 
     </LinearLayout>
 

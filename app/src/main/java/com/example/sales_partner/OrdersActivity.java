@@ -1,6 +1,7 @@
 package com.example.sales_partner;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,6 +26,7 @@ import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrdersActivity extends AppCompatActivity {
@@ -42,7 +45,7 @@ public class OrdersActivity extends AppCompatActivity {
     private CheckBox dateStartCheckBox;
     private EditText dateStartEditTxt;
     private CheckBox dateEndCheckBox;
-    private EditText dateEndEditTxt;
+    private Button dateEndEditTxt;
     private ListView orderList;
 
     //List
@@ -140,6 +143,11 @@ public class OrdersActivity extends AppCompatActivity {
 
     }
 
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
     //GENERATE TOOLBAR MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -191,6 +199,14 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     private void onSearchMenuClicked() {
+
+        // get init date
+        Date initDate = null;
+        if(dateStartCheckBox.isChecked()){
+            ;
+            //dateStartEditTxt
+        }
+
 
         List<Order> o = new ArrayList<Order>();
 
