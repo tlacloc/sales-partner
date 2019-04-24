@@ -195,28 +195,47 @@ public class OrdersActivity extends AppCompatActivity {
         List<Order> o = new ArrayList<Order>();
 
         String query = "SELECT * FROM orders";
-
-        String tempQuery = statusStringQueryMaker();
-
-
-        if (custId == -1) { //ALL CUSTOMERS SELECTED
-            //FIND JUST BY STATUS
-        } else {
+        String statusQuery = statusStringQueryMaker();
+        String customerQuery = customerAndStatusQueryMaker(custId, statusQuery);
+        query = query + customerQuery;
 
 
-            if (tempQuery == ""){//FIND BY CUSTOMER
+        ArrayList<String> starray = new ArrayList<String>();
 
-            }
-            else{//FIND BY CUSTOMER AND STATUS
+        Object[] tmp = starray.toArray();
+        SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, tmp);
+        List<Order> ord = orderDao.findByQuery(q);
 
-            }
-
-
-        }
+        updateOrders(ord);
 
 
     }
 
+
+    private String customerAndStatusQueryMaker(int customerId, String statusString) {
+        String query = "";
+        if (customerId == -1) { //ALL CUSTOMERS SELECTED
+            //FIND JUST BY STATUS
+            if (statusString.equals("")) { //NO STATUS SELECTED
+                //DO NOTHING
+            } else { //STATUS SELECTED
+                query = statusString;
+            }
+        } else {
+
+            if (statusString == "") {//FIND BY CUSTOMER
+
+                query = " WHERE customer_id = " + customerId;
+
+            } else {//FIND BY CUSTOMER AND STATUS
+
+                query = " WHERE customers like " + customerId + statusString;
+
+            }
+        }
+
+        return query;
+    }
 
     private String statusStringQueryMaker() {
 
@@ -228,43 +247,48 @@ public class OrdersActivity extends AppCompatActivity {
             if (i.isSelected()) {
                 if (previousConditions == false) {
                     if (i.getTitle().equals("Pendiente")) {
-                        selectedStatus = "'0'";
+                        selectedStatus = " status_id like 0";
                     }
                     if (i.getTitle().equals("Cancelado")) {
-                        selectedStatus = "'1'";
+                        selectedStatus = " status_id like 1";
                     }
                     if (i.getTitle().equals("Confirmado")) {
-                        selectedStatus = "'2'";
+                        selectedStatus = " status_id like 2";
                     }
                     if (i.getTitle().equals("En transito")) {
-                        selectedStatus = "'3'";
+                        selectedStatus = " status_id like 3";
                     }
                     if (i.getTitle().equals("Finalizado")) {
-                        selectedStatus = "'4'";
+                        selectedStatus = " status_id like 4";
                     }
                     previousConditions = true;
                 } else {
                     if (i.getTitle().equals("Pendiente")) {
-                        selectedStatus = selectedStatus + ", '0'";
+                        selectedStatus = selectedStatus + " OR status_id like 0";
                     }
                     if (i.getTitle().equals("Cancelado")) {
-                        selectedStatus = selectedStatus + ", '1'";
+                        selectedStatus = selectedStatus + " OR status_id like 1";
                     }
                     if (i.getTitle().equals("Confirmado")) {
-                        selectedStatus = selectedStatus + ", '2'";
+                        selectedStatus = selectedStatus + " OR status_id like 2";
                     }
                     if (i.getTitle().equals("En transito")) {
-                        selectedStatus = selectedStatus + ", '3'";
+                        selectedStatus = selectedStatus + " OR status_id like 3";
                     }
                     if (i.getTitle().equals("Finalizado")) {
-                        selectedStatus = selectedStatus + ", '4'";
+                        selectedStatus = selectedStatus + " OR status_id like 4";
                     }
                 }
             }
         }
 
-        if (selectedStatus != ""){
-            selectedStatus = "WHERE status_id IN (" + selectedStatus + ")";
+        if (selectedStatus != "") {
+            if (custId == -1) {
+                selectedStatus = " WHERE" + selectedStatus;
+            } else {
+                selectedStatus = " AND"+ selectedStatus;
+            }
+
         }
 
         return selectedStatus;
@@ -281,3 +305,5 @@ public class OrdersActivity extends AppCompatActivity {
 
     }
 }
+
+
