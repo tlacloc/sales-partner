@@ -229,7 +229,7 @@ public class OrdersActivity extends AppCompatActivity {
 
             } else {//FIND BY CUSTOMER AND STATUS
 
-                query = " WHERE customers like " + customerId + statusString;
+                query = " WHERE customer_id like " + customerId + statusString;
 
             }
         }
