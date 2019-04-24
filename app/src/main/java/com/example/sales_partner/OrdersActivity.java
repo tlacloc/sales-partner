@@ -202,8 +202,8 @@ public class OrdersActivity extends AppCompatActivity {
 
         ArrayList<String> starray = new ArrayList<String>();
 
-        Object[] tmp = starray.toArray();
-        SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, tmp);
+        //Object[] tmp = starray.toArray();
+        SimpleSQLiteQuery q = new SimpleSQLiteQuery(query);
         List<Order> ord = orderDao.findByQuery(q);
 
         updateOrders(ord);
