@@ -1,0 +1,57 @@
+//////////////
+SELECT 
+id,
+customerName,
+status,
+date,
+assemblies_qty as assemblies,
+SUM(subtotal) as price
+FROM
+(
+SELECT 
+orders.id AS id,
+customers.id AS customerId,
+customers.first_name as customerName,
+orders.date as date,
+order_status.description as status,
+order_assemblies.assembly_id as assembly_id,
+SUM(order_assemblies.qty) as assemblies_qty,
+assembly_products.qty as assembly_products_qty,
+products.id as product_id,
+products.description as product,
+products.price as product_price,
+SUM(assembly_products.qty*products.price*order_assemblies.qty) as subtotal
+FROM orders 
+INNER JOIN customers ON customers.id = orders.customer_id
+INNER JOIN order_status ON order_status.id = orders.status_id
+INNER JOIN order_assemblies ON order_assemblies.id = orders.id
+INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id
+INNER JOIN products ON products.id = assembly_products.product_id
+GROUP BY orders.id, order_assemblies.assembly_id, products.id
+)
+GROUP BY id
+
+
+///////////////
+Query Joins y agrupado en diferentes campos
+
+SELECT 
+orders.id AS id,
+customers.id AS customerId,
+customers.first_name as customerName,
+order_status.description as status,
+order_assemblies.assembly_id as assembly_id,
+SUM(order_assemblies.qty) as assamblies_qty,
+assembly_products.qty as assembly_products_qty,
+products.id as product_id,
+products.description as product,
+products.price as product_price,
+SUM(assembly_products.qty*products.price*order_assemblies.qty) as subtotal
+FROM orders 
+INNER JOIN customers ON customers.id = orders.customer_id
+INNER JOIN order_status ON order_status.id = orders.status_id
+INNER JOIN order_assemblies ON order_assemblies.id = orders.id
+INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id
+INNER JOIN products ON products.id = assembly_products.product_id
+WHERE customers.id = 0
+GROUP BY orders.id, order_assemblies.assembly_id, products.id
