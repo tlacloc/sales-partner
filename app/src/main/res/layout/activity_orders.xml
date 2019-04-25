@@ -71,6 +71,10 @@
             android:inputType="date" />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar fecha final de filtrado " />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,13 +86,21 @@
             android:id="@+id/checkBoxOrdersEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Seleccionar fecha final de filtrado " />
+            android:layout_weight="1"/>
+        <EditText
+            android:id="@+id/editTextOrdersEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:inputType="date" />
 
         <Button
-            android:id="@+id/editTextOrdersEndDate"
-            android:layout_width="match_parent"
+            android:id="@+id/btnOrdersEndDate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_weight="1"
+
             android:onClick="showDatePickerDialog"/>
 
     </LinearLayout>
