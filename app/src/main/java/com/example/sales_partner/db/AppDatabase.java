@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderCustomerDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.dao.OrderStatusDao;
 import com.example.sales_partner.dao.ProductDao;
@@ -17,10 +18,11 @@ import com.example.sales_partner.model.Category;
 import com.example.sales_partner.dao.CategoryDao;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
+import com.example.sales_partner.model.OrderCustomer;
 import com.example.sales_partner.model.OrderStatus;
 import com.example.sales_partner.model.Product;
 
-@Database(entities = {Category.class,Product.class,Assembly.class,Order.class,OrderStatus.class,Customer.class}, version = 4)
+@Database(entities = {Category.class,Product.class,Assembly.class,Order.class, OrderStatus.class,Customer.class}, version = 5)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -308,6 +310,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract OrderDao orderDao();
 
+    public abstract OrderCustomerDao orderCustomerDao();
 
     public abstract ProductDao productDao();
 

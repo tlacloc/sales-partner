@@ -21,11 +21,13 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderCustomerDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.dao.OrderStatusDao;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
+import com.example.sales_partner.model.OrderCustomer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,21 +54,24 @@ public class OrdersActivity extends AppCompatActivity {
     private OrderDao orderDao;
     private CustomerDao customerDao;
     private OrderStatusDao orderStatusDao;
+    private OrderCustomerDao orderCustomerDao;
 
     // VIEW COMPONENTS
     private Spinner statusSpnr;
     private Spinner customerSpnr;
-    private CheckBox dateStartCheckBox;
-    private EditText dateStartEditTxt;
 
     private CheckBox dateEndCheckBox;
-    private Button dateEndBtn;
+    private CheckBox dateStartCheckBox;
+
+    private EditText dateStartEditTxt;
     private EditText dateEndEditTxt;
 
+    private Button dateEndBtn;
+    private Button dateStartBtn;
     private ListView orderList;
 
     //List
-    private List<Order> orders;
+    private List<OrderCustomer> orders;
     private ArrayList<StateVO> listVOs;
 
     // Adapters
@@ -84,21 +89,25 @@ public class OrdersActivity extends AppCompatActivity {
         orderDao = AppDatabase.getAppDatabase(getApplicationContext()).orderDao();
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
         orderStatusDao = AppDatabase.getAppDatabase(getApplicationContext()).orderStatusDao();
+        orderCustomerDao = AppDatabase.getAppDatabase(getApplicationContext()).orderCustomerDao();
 
         // VIEW COMPONENTS INIT
         statusSpnr = findViewById(R.id.statusOrdersSpnrSelect);
         customerSpnr = findViewById(R.id.customerOrdersSpnrSelect);
-        dateStartCheckBox = findViewById(R.id.checkBoxOrdersStartDate);
-        dateStartEditTxt = findViewById(R.id.editTextOrdersStartDate);
 
         dateEndCheckBox = findViewById(R.id.checkBoxOrdersEndDate);
+        dateStartCheckBox = findViewById(R.id.checkBoxOrdersStartDate);
+
+        dateStartEditTxt = findViewById(R.id.editTextOrdersStartDate);
         dateEndEditTxt = (EditText) findViewById(R.id.editTextOrdersEndDate);
+
         dateEndBtn = findViewById(R.id.btnOrdersEndDate);
+        dateStartBtn = findViewById(R.id.btnOrdersStartDate);
 
         orderList = findViewById(R.id.orderList);
 
         // init customer data model
-        orders = new ArrayList<Order>();
+        orders = new ArrayList<OrderCustomer>();
 
         // ADAPTERS
         orderAdapter = new ArrayAdapter(this, R.layout.text_list, orders);
@@ -136,7 +145,7 @@ public class OrdersActivity extends AppCompatActivity {
         customerSpnr.setAdapter(customerAdapter);
 
         // ADDING ORDERS TO LISTVIEW
-        List<Order> o = orderDao.getAll();
+        List<OrderCustomer> o = orderCustomerDao.getAll();
         this.orders.clear();
         this.orders.addAll(o);
 
@@ -163,6 +172,28 @@ public class OrdersActivity extends AppCompatActivity {
 
     }
 
+    private void obtenerFechaInicial(){
+        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                final int mesActual = month + 1;
+                //Formateo el día obtenido: antepone el 0 si son menores de 10
+                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                //Muestro la fecha con el formato deseado
+                dateStartEditTxt.setText(year + BARRA + mesFormateado + BARRA + diaFormateado);
+            }
+            //Estos valores deben ir en ese orden, de lo contrario no mostrara la fecha actual
+            /**
+             *También puede cargar los valores que usted desee
+             */
+        },anio, mes, dia);
+        //Muestro el widget
+        recogerFecha.show();
+
+    }
     private void obtenerFecha(){
         DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -188,6 +219,9 @@ public class OrdersActivity extends AppCompatActivity {
 
     public void showDatePickerDialog(View v) {
         obtenerFecha();
+    }
+    public void showStartDatePickerDialog(View v) {
+        obtenerFechaInicial();
     }
 
     //GENERATE TOOLBAR MENU
@@ -252,20 +286,34 @@ public class OrdersActivity extends AppCompatActivity {
 
         List<Order> o = new ArrayList<Order>();
 
+        String ultimate_query = "SELECT orders.id AS id, customers.first_name AS customerName, order_status.description AS status FROM orders INNER JOIN customers ON customers.id = orders.customer_id INNER JOIN order_status ON order_status.id = orders.status_id";
+
         String query = "SELECT * FROM orders";
         String statusQuery = statusStringQueryMaker();
         String customerQuery = customerAndStatusQueryMaker(custId, statusQuery,
-                "", dateEndEditTxt.getText().toString() );
-        query = query + customerQuery;
+                dateStartEditTxt.getText().toString(), dateEndEditTxt.getText().toString() );
+        ultimate_query = ultimate_query + customerQuery;
 
 
         ArrayList<String> starray = new ArrayList<String>();
 
         //Object[] tmp = starray.toArray();
+        String dateStartStr = dateStartEditTxt.getText().toString();
         String dateEndStr = dateEndEditTxt.getText().toString();
-        SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, new Object[]{dateEndStr});
-        List<Order> ord = orderDao.findByQuery(q);
+        ArrayList<Object> arreglos = new ArrayList<Object>();
 
+        if (!dateStartStr.isEmpty()){
+            arreglos.add(dateStartStr);
+        }
+        if (!dateEndStr.isEmpty()){
+            arreglos.add(dateEndStr);
+        }
+
+        SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, arreglos.toArray());
+        //List<Order> ord = orderDao.findByQuery(q);
+
+        SimpleSQLiteQuery ultimate_q = new SimpleSQLiteQuery(ultimate_query, arreglos.toArray());
+        List<OrderCustomer> ord = orderCustomerDao.findByQuery(ultimate_q);
         updateOrders(ord);
 
 
@@ -278,14 +326,14 @@ public class OrdersActivity extends AppCompatActivity {
         String query = "";
         if (customerId == -1) { //ALL CUSTOMERS SELECTED
             //FIND JUST BY STATUS
-            if (statusString.equals("")) { //NO STATUS SELECTED
+            if (statusString.isEmpty()) { //NO STATUS SELECTED
                 //DO NOTHING
             } else { //STATUS SELECTED
                 query = statusString;
             }
         } else {
 
-            if (statusString == "") {//FIND BY CUSTOMER
+            if (statusString.isEmpty()) {//FIND BY CUSTOMER
 
                 query = " customer_id = " + customerId;
 
@@ -296,18 +344,18 @@ public class OrdersActivity extends AppCompatActivity {
             }
         }
 
-        if(startDate!="" && endDate!=""){
-            if(query!="") query += " AND";
-            query += " date BETWEEN date('" + startDate + "') AND date('" + endDate + "')";
-        } else if(startDate!=""){
-            if(query!="") query += " AND";
-            query += " date > date('" + startDate + "')";
-        } else if(endDate!=""){
-            if(query!="") query += " AND";
+        if(!startDate.isEmpty() && !endDate.isEmpty()){
+            if(!query.isEmpty()) query += " AND";
+            query += " date BETWEEN date(?) AND date(?)";
+        } else if(!startDate.isEmpty()){
+            if(!query.isEmpty()) query += " AND";
+            query += " date(date) > date(?)";
+        } else if(!endDate.isEmpty()){
+            if(!query.isEmpty()) query += " AND";
             query += " date(date) < date(?)";
         }
 
-        if(query!=""){
+        if(!query.isEmpty()){
             query = " WHERE" + query;
         }
 
@@ -363,7 +411,7 @@ public class OrdersActivity extends AppCompatActivity {
             if (custId == -1) {
                 selectedStatus = " " + selectedStatus;
             } else {
-                selectedStatus = " AND"+ selectedStatus;
+                selectedStatus = " AND ("+ selectedStatus + ")";
             }
 
         }
@@ -371,7 +419,7 @@ public class OrdersActivity extends AppCompatActivity {
         return selectedStatus;
     }
 
-    private void updateOrders(List<Order> newOrder) {
+    private void updateOrders(List<OrderCustomer> newOrder) {
 
         //ADD ORDERS TO MODEL
         this.orders.clear();

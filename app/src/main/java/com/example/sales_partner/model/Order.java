@@ -4,6 +4,9 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.db.AppDatabase;
+
 import java.util.Date;
 
 @Entity(tableName = "orders")
@@ -49,6 +52,7 @@ public class Order {
         this.customerId = customerId;
     }
 
+
     public String getDate() {
         return date;
     }
@@ -66,6 +70,8 @@ public class Order {
     }
 
     public String toString(){
-        return this.date + this.statusId;
+        return this.date+ " S: " + this.statusId + " c: " + this.customerId;
     }
+
+
 }

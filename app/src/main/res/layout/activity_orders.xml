@@ -51,48 +51,77 @@
         </Spinner>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar fecha inicial de filtrado " />
 
         <CheckBox
             android:id="@+id/checkBoxOrdersStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Seleccionar fecha inicial de filtrado " />
-
-        <EditText
-            android:id="@+id/editTextOrdersStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
+            android:layout_weight="1"
+            android:text="habilitar filtrado" />
 
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar fecha final de filtrado " />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <EditText
+            android:id="@+id/editTextOrdersStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="date" />
+
+        <Button
+            android:id="@+id/btnOrdersStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="showStartDatePickerDialog" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar fecha final de filtrado " />
 
         <CheckBox
             android:id="@+id/checkBoxOrdersEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="habilitar filtrado" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <EditText
             android:id="@+id/editTextOrdersEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
             android:inputType="date" />
 
         <Button
@@ -100,8 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
-            android:onClick="showDatePickerDialog"/>
+            android:onClick="showDatePickerDialog" />
 
     </LinearLayout>
 
