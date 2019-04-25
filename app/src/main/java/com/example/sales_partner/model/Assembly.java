@@ -2,6 +2,7 @@ package com.example.sales_partner.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "assemblies")
@@ -29,9 +30,13 @@ public class Assembly {
         this.description = description;
     }
 
+
     public String toString() {
-        return this.description;
+        int descriptionLength =  20;
+        return this.description.substring(0, descriptionLength);
     }
+
+
 
 }
 

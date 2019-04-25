@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.db.AppDatabase;
-import com.example.sales_partner.model.Assembly;
+import com.example.sales_partner.model.AssemblyExtended;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class AssembliesActivity extends AppCompatActivity {
     private EditText searchEditText;
 
     // Lista de todos los ensambles
-    private List<Assembly> assemblies;
+    private List<AssemblyExtended> assemblies;
 
     // Adapters
     private ArrayAdapter assembliesAdapter;
@@ -47,7 +47,9 @@ public class AssembliesActivity extends AppCompatActivity {
 
         // VIEW COMPONENTS INIT
         searchEditText = findViewById(R.id.assembliesTxt);
-        assemblies = new ArrayList<Assembly>();
+        assemblies = new ArrayList<AssemblyExtended>();
+        List<AssemblyExtended> tmp = assemblyDao.getExtendedByDescription("%%");
+        assemblies.addAll(tmp);
 
         // ADAPTERS
         assembliesAdapter = new ArrayAdapter(this, R.layout.text_list, assemblies);
@@ -72,8 +74,8 @@ public class AssembliesActivity extends AppCompatActivity {
                 query = "%" + query + "%";
 
                 //
-                List<Assembly> a = new ArrayList<Assembly>();
-                a = assemblyDao.findByDescription(query);
+                List<AssemblyExtended> a = new ArrayList<AssemblyExtended>();
+                a = assemblyDao.getExtendedByDescription(query);
 
                 // add products to model
                 this.assemblies.clear();

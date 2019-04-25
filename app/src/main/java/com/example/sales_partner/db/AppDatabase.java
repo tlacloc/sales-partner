@@ -29,7 +29,7 @@ import com.example.sales_partner.model.Product;
 @Database(entities = {Category.class,
         Product.class,Assembly.class,Order.class,
         OrderStatus.class,Customer.class,
-        OrderAssemblies.class, AssemblyProducts.class}, version = 6)
+        OrderAssemblies.class, AssemblyProducts.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -38,14 +38,14 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getAppDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context,
-                    AppDatabase.class, "inventory.db")
+                    AppDatabase.class, "inventory2.db")
                     .allowMainThreadQueries()
                     .addCallback(new RoomDatabase.Callback() {
                         @Override
                         public void onCreate(@NonNull SupportSQLiteDatabase db) {
                             super.onCreate(db);
                             // CREATE CATEGORIES
-                            db.execSQL("INSERT INTO categories (id, description) VALUES (0, 'Disco duro')");
+                            db.execSQL("INSERT INTO categories (id, description) VALUES (0, 'Disco duroo')");
                             db.execSQL("INSERT INTO categories (id, description) VALUES (1, 'Memoria')");
                             db.execSQL("INSERT INTO categories (id, description) VALUES (2, 'Monitor')");
                             db.execSQL("INSERT INTO categories (id, description) VALUES (3, 'Procesador')");
