@@ -8,21 +8,28 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.sales_partner.dao.AssemblyDao;
+import com.example.sales_partner.dao.AssemblyProductsDao;
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderAssembliesDao;
 import com.example.sales_partner.dao.OrderCustomerDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.dao.OrderStatusDao;
 import com.example.sales_partner.dao.ProductDao;
 import com.example.sales_partner.model.Assembly;
+import com.example.sales_partner.model.AssemblyProducts;
 import com.example.sales_partner.model.Category;
 import com.example.sales_partner.dao.CategoryDao;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
+import com.example.sales_partner.model.OrderAssemblies;
 import com.example.sales_partner.model.OrderCustomer;
 import com.example.sales_partner.model.OrderStatus;
 import com.example.sales_partner.model.Product;
 
-@Database(entities = {Category.class,Product.class,Assembly.class,Order.class, OrderStatus.class,Customer.class}, version = 5)
+@Database(entities = {Category.class,
+        Product.class,Assembly.class,Order.class,
+        OrderStatus.class,Customer.class,
+        OrderAssemblies.class, AssemblyProducts.class}, version = 6)
 public abstract class AppDatabase extends RoomDatabase {
 
 
@@ -75,7 +82,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (8, 0, 3, '2017-03-18', NULL)");
 
                             //ORDERS ASSEMBLIES
-                           /* db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 0, 2)");
+                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 0, 2)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 3, 2)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 5, 3)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (1, 1, 2)");
@@ -104,10 +111,10 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (7, 3, 3)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 0, 1)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 6, 5)");
-                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 7, 3)");*/
+                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 7, 3)");
 
                             //ASSEMBLIES_PRODUCTS
-                          /*  db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 101, 1)");
+                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 101, 1)");
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 205, 1)");
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 1, 1)");
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 304, 1)");
@@ -161,7 +168,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 322, 1)");
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 407, 1)");
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 504, 2)");
-                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 605, 1)");*/
+                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 605, 1)");
 
                             // CUSTOMERS
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (0, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
@@ -311,6 +318,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract OrderDao orderDao();
 
     public abstract OrderCustomerDao orderCustomerDao();
+
+    public abstract AssemblyProductsDao assemblyProductsDao();
+
+    public abstract OrderAssembliesDao orderAssembliesDao();
 
     public abstract ProductDao productDao();
 

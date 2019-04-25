@@ -9,13 +9,15 @@ public class OrderCustomer {
    public int id;
    public String customerName;
    public String status;
+   public int customerId;
+   public int statusId;
    public String date;
-   //public int assemblies;
-   //public int cost;
+   public int assemblies;
+   public int price;
 
 
    public String toString() {
-      return this.customerName + " " + this.status + " " + this.date;
+      return this.customerName + " " + this.status + " " + this.date + " " + this.assemblies + " $" + this.price;
    }
 
 

@@ -286,13 +286,52 @@ public class OrdersActivity extends AppCompatActivity {
 
         List<Order> o = new ArrayList<Order>();
 
-        String ultimate_query = "SELECT orders.id AS id, customers.first_name AS customerName, order_status.description AS status FROM orders INNER JOIN customers ON customers.id = orders.customer_id INNER JOIN order_status ON order_status.id = orders.status_id";
+        String ultimate_query = "SELECT \n" +
+                "id,\n" +
+                "customerId AS customerId,\n " +
+                "statusI" +
+                "" +
+                "" +
+                "" +
+                "" +
+                "" +
+                "" +
+                "d AS statusId,\n" +
+                "customerName,\n" +
+                "status,\n" +
+                "date,\n" +
+                "assemblies_qty as assemblies,\n" +
+                "SUM(subtotal) as price\n" +
+                "FROM\n" +
+                "(\n" +
+                "SELECT \n" +
+                "orders.id AS id,\n" +
+                "order_status.id AS statusId,\n"+
+                "customers.id AS customerId,\n" +
+                "customers.first_name as customerName,\n" +
+                "orders.date as date,\n" +
+                "order_status.description as status,\n" +
+                "order_assemblies.assembly_id as assembly_id,\n" +
+                "SUM(order_assemblies.qty) as assemblies_qty,\n" +
+                "assembly_products.qty as assembly_products_qty,\n" +
+                "products.id as product_id,\n" +
+                "products.description as product,\n" +
+                "products.price as product_price,\n" +
+                "SUM(assembly_products.qty*products.price*order_assemblies.qty) as subtotal\n" +
+                "FROM orders \n" +
+                "INNER JOIN customers ON customers.id = orders.customer_id\n" +
+                "INNER JOIN order_status ON order_status.id = orders.status_id\n" +
+                "INNER JOIN order_assemblies ON order_assemblies.id = orders.id\n" +
+                "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
+                "INNER JOIN products ON products.id = assembly_products.product_id\n" +
+                "GROUP BY orders.id, order_assemblies.assembly_id, products.id\n" +
+                ")";
 
         String query = "SELECT * FROM orders";
         String statusQuery = statusStringQueryMaker();
         String customerQuery = customerAndStatusQueryMaker(custId, statusQuery,
                 dateStartEditTxt.getText().toString(), dateEndEditTxt.getText().toString() );
-        ultimate_query = ultimate_query + customerQuery;
+        ultimate_query = ultimate_query + customerQuery +  " GROUP BY id";
 
 
         ArrayList<String> starray = new ArrayList<String>();
@@ -335,11 +374,11 @@ public class OrdersActivity extends AppCompatActivity {
 
             if (statusString.isEmpty()) {//FIND BY CUSTOMER
 
-                query = " customer_id = " + customerId;
+                query = " customerId = " + customerId;
 
             } else {//FIND BY CUSTOMER AND STATUS
 
-                query = " customer_id like " + customerId + statusString;
+                query = " customerId like " + customerId + statusString;
 
             }
         }
@@ -372,36 +411,36 @@ public class OrdersActivity extends AppCompatActivity {
             if (i.isSelected()) {
                 if (previousConditions == false) {
                     if (i.getTitle().equals("Pendiente")) {
-                        selectedStatus = " status_id like 0";
+                        selectedStatus = " statusId like 0";
                     }
                     if (i.getTitle().equals("Cancelado")) {
-                        selectedStatus = " status_id like 1";
+                        selectedStatus = " statusId like 1";
                     }
                     if (i.getTitle().equals("Confirmado")) {
-                        selectedStatus = " status_id like 2";
+                        selectedStatus = " statusId like 2";
                     }
                     if (i.getTitle().equals("En transito")) {
-                        selectedStatus = " status_id like 3";
+                        selectedStatus = " statusId like 3";
                     }
                     if (i.getTitle().equals("Finalizado")) {
-                        selectedStatus = " status_id like 4";
+                        selectedStatus = " statusId like 4";
                     }
                     previousConditions = true;
                 } else {
                     if (i.getTitle().equals("Pendiente")) {
-                        selectedStatus = selectedStatus + " OR status_id like 0";
+                        selectedStatus = selectedStatus + " OR statusId like 0";
                     }
                     if (i.getTitle().equals("Cancelado")) {
-                        selectedStatus = selectedStatus + " OR status_id like 1";
+                        selectedStatus = selectedStatus + " OR statusId like 1";
                     }
                     if (i.getTitle().equals("Confirmado")) {
-                        selectedStatus = selectedStatus + " OR status_id like 2";
+                        selectedStatus = selectedStatus + " OR statusId like 2";
                     }
                     if (i.getTitle().equals("En transito")) {
-                        selectedStatus = selectedStatus + " OR status_id like 3";
+                        selectedStatus = selectedStatus + " OR statusId like 3";
                     }
                     if (i.getTitle().equals("Finalizado")) {
-                        selectedStatus = selectedStatus + " OR status_id like 4";
+                        selectedStatus = selectedStatus + " OR statusId like 4";
                     }
                 }
             }
