@@ -102,9 +102,9 @@ El modo landscape de esta pantalla es de diseño libre.
 
 PANTALLAS AUXILIARES
 
-	AGREGAR UN NUEVO CLIENTE
+	AGREGAR UN NUEVO CLIENTE [DONE]
 
-	EDITAR UN CLIENTE
+	EDITAR UN CLIENTE [DONE]
 Incluye un EditText para agregar el nombre. Debe existir una validación del texto.
 
 Incluye un EditText para agregar el apellido. Debe existir una validación del texto.
@@ -269,10 +269,11 @@ PANTALLAS SECUNDARIAS
 1. Productos faltantes. Reporte de todos los productos faltantes para poder confirmar todas
 las órdenes.
 
+
 2. Simulador de confirmación de órdenes. Debe ofrecer 3 opciones: 
-a) procesar por cliente,
-b) procesar por fecha, 
-c) procesar por monto de venta. 
+a) procesar por cliente, //get all de todos los clientes
+b) procesar por fecha,  //fechas 
+c) procesar por monto de venta. //
 	>Debe ofrecer como resultado una lista de órdenes para las cuales se simula su confirmación
 	y el correspondiente retiro de producto del almacén. Cada orden al ser procesada será marcada
 	con un color específico	para indicar que: 
