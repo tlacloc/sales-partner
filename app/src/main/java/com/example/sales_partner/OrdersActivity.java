@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
@@ -19,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.OrderCustomerDao;
@@ -255,20 +257,32 @@ public class OrdersActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.clients_menu_toolbar, menu);
+        int id= v.getId();
+        MenuInflater inflater= getMenuInflater();
+
+        switch (id){
+            case R.id.orderList:
+                inflater.inflate(R.menu.menu_contextual_ordenes , menu);
+                break;
+        }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search_menu_item:
-
-
+            //Elementos del menu contextual ordenes
+            case R.id.action_ordetails:
+                Toast.makeText(OrdersActivity.this, "Detalles de orden", Toast.LENGTH_SHORT).show();
                 return true;
-
-            case R.id.add_menu_item:
-
+            case R.id.action_oredit:
+                Toast.makeText(OrdersActivity.this, "Editar orden", Toast.LENGTH_SHORT).show();
                 return true;
-
+            case R.id.action_oravan:
+                Toast.makeText(OrdersActivity.this, "Avanzar estado", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_orregre:
+                Toast.makeText(OrdersActivity.this, "Regresar estado", Toast.LENGTH_SHORT).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -65,6 +67,9 @@ public class ClientsActivity extends AppCompatActivity {
         customersAdapter = new ArrayAdapter(this, R.layout.text_list, customers);
         customerList.setAdapter(customersAdapter);
 
+        //Lista
+        //private ListView clientList;
+
         // field selection options
         String[] customerFields = {"Select field","nombre", "apellido", "telefono", "email", "dirección"};
         listVOs = new ArrayList<>();
@@ -88,6 +93,15 @@ public class ClientsActivity extends AppCompatActivity {
 
         // notify adapter to update view
         customersAdapter.notifyDataSetChanged();
+
+        //Menu contextual
+        //clientList = (ListView)findViewById(R.id.clientList);
+        //ArrayAdapter<String> adp= new ArrayAdapter<String>(ClientsActivity.this, android.R.layout.simple_list_item_1, customerFields);
+
+        //clientList.setAdapter(adp);
+
+                //Registrar los controles para menus contextuales
+        registerForContextMenu(customerList);
     }
 
     //GENERATE TOOLBAR MENU
@@ -172,25 +186,38 @@ public class ClientsActivity extends AppCompatActivity {
         }
     }
 
+   //Menu contextual
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.clients_menu_toolbar, menu);
-    }
 
+        int id= v.getId();
+        MenuInflater inflater= getMenuInflater();
+
+        switch (id){
+            case R.id.clientList:
+                inflater.inflate(R.menu.menu_contextual_clientes , menu);
+
+                break;
+        }
+    }
+    //Accion de seleccionar opcion en el menu contextual
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo Info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.search_menu_item:
-
+            //Elementos del menu contextual clientes
+            case R.id.action_details:
+                Toast.makeText(ClientsActivity.this, "Detalles del cliente", Toast.LENGTH_SHORT).show();
                 return true;
-
-            case R.id.add_menu_item:
-
+            case R.id.action_edit:
+                Toast.makeText(ClientsActivity.this, "Editar cliente", Toast.LENGTH_SHORT).show();
                 return true;
-
+            case R.id.action_delete:
+                Toast.makeText(ClientsActivity.this, "Cliente eliminado", Toast.LENGTH_SHORT).show();
+                return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onContextItemSelected(item);
         }
     }
 }
