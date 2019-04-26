@@ -40,6 +40,33 @@ public class ClientsAddActivity extends AppCompatActivity {
     // Models
     private Customer customer;
 
+    private boolean phone2Checked = false;
+    private boolean phone3Checked = false;
+    private boolean emailChecked = false;
+
+
+    //////////////////////
+    // GETTERS AND SETTERS
+    /////////////////////
+
+    public boolean isPhone2Checked() {
+        return phone2Checked;
+    }
+
+    public void setPhone2Checked(boolean phone2Checked) {
+        this.phone2Checked = phone2Checked;
+    }
+
+    public boolean isPhone3Checked() { return phone3Checked; }
+
+    public void setPhone3Checked(boolean phone3Checked) { this.phone3Checked = phone3Checked; }
+
+
+    public boolean isEmailChecked() { return emailChecked; }
+
+    public void setEmailChecked(boolean emailChecked) { this.emailChecked = emailChecked; }
+
+
     // VIEW COMPONENTS
     EditText txtEditFirstName;
     EditText txtEditLastName;
@@ -68,6 +95,7 @@ public class ClientsAddActivity extends AppCompatActivity {
         if(customer==null) customer = new Customer();
 
         binding.setCustomer(customer);
+        binding.setPhone2Checked(phone2Checked);
 
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
 
