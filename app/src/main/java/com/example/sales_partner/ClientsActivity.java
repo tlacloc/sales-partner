@@ -1,6 +1,8 @@
 package com.example.sales_partner;
 
+import android.app.AlertDialog;
 import android.arch.persistence.db.SimpleSQLiteQuery;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +62,8 @@ public class ClientsActivity extends AppCompatActivity {
         spinner = findViewById(R.id.Spnrclients);
         searchEditText = findViewById(R.id.clientSearchTxt);
         customerList = findViewById(R.id.clientList);
+
+        // ON CLICK LIST ITEM CUSTOMER --> EDIT CUSTOMER
         customerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,6 +73,8 @@ public class ClientsActivity extends AppCompatActivity {
                 startActivity(IntCustomers);
             }
         });
+
+
 
         // init customer data model
         customers = new ArrayList<Customer>();
@@ -104,8 +110,8 @@ public class ClientsActivity extends AppCompatActivity {
         // notify adapter to update view
         customersAdapter.notifyDataSetChanged();
 
-        //Menu contextual
-        //clientList = (ListView)findViewById(R.id.clientList);
+        // REGISTRAR CONTEXT MENU
+        registerForContextMenu(customerList);
         //ArrayAdapter<String> adp= new ArrayAdapter<String>(ClientsActivity.this, android.R.layout.simple_list_item_1, customerFields);
 
         //clientList.setAdapter(adp);
@@ -127,63 +133,11 @@ public class ClientsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search_menu_item:
+                /// SEARCH
+                String searchText = searchEditText.getText().toString(); // text to search
+                List<Customer> customersResult = this.search(searchText);
 
-                // text to search
-                String searchText = searchEditText.getText().toString();
-
-                String query = "SELECT * FROM customers";
-                String orderby = " ORDER BY last_name ASC, first_name ASC";
-                String conditions = "";
-                ArrayList<String> starray = new ArrayList<String>();
-
-                boolean conditionsb = false;
-
-                for (StateVO i : listVOs){
-                    if(i.isSelected()){
-                        starray.add("%" + searchText + "%");
-                        if(conditionsb) {
-                            // Hay mas de una condición, poner OR
-                            conditions += " OR";
-                        }
-
-                        if(i.getTitle() == "nombre")
-                            conditions += " first_name like ?";
-
-                        if(i.getTitle() == "apellido")
-                            conditions += " last_name like ?";
-
-                        if(i.getTitle() == "telefono") {
-                            conditions += " phone1 like ?";
-                            conditions += " OR phone2 like ?";
-                            conditions += " OR phone3 like ?";
-                        }
-
-                        if(i.getTitle() == "email")
-                            conditions += " e_mail like ?";
-
-                        if(i.getTitle() == "dirección")
-                            conditions += " address like ?";
-
-                        conditionsb = true;
-                    }
-                }
-                if(conditionsb){
-                    conditions = " WHERE" + conditions;
-                }
-
-                query = query + conditions + orderby;
-
-                Object[] tmp = starray.toArray();
-
-                SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, tmp);
-                List<Customer> cust = customerDao.findByQuery(q);
-
-                // add products to model
-                this.customers.clear();
-                this.customers.addAll(cust);
-
-                // notify adapter to update view
-                customersAdapter.notifyDataSetChanged();
+                this.refreshCustomerList(customersResult);
 
                 return true;
 
@@ -200,7 +154,7 @@ public class ClientsActivity extends AppCompatActivity {
         }
     }
 
-   //Menu contextual
+   // CONTEXT MENU OVERRIDES
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -211,27 +165,132 @@ public class ClientsActivity extends AppCompatActivity {
         switch (id){
             case R.id.clientList:
                 inflater.inflate(R.menu.menu_contextual_clientes , menu);
-
                 break;
         }
     }
     //Accion de seleccionar opcion en el menu contextual
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo Info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        final Customer selectedCustomer = (Customer) customersAdapter.getItem(info.position);
+
         switch (item.getItemId()) {
             //Elementos del menu contextual clientes
             case R.id.action_details:
+                //////////// DETALLES DEL CLIENTE
+
+                AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle("Cliente")
+                        .setMessage(
+                                "Nombre: " + selectedCustomer.getFirstName() + " " + selectedCustomer.getLastName() + "\n\n" +
+                                "Telefono(s): " + selectedCustomer.getPhone1() + " " + selectedCustomer.getPhone2() + " " + selectedCustomer.getPhone3() +  "\n\n" +
+                                "Direccion: \n" + selectedCustomer.getAddress() + " " + "\n\n" +
+                                "Email: " + selectedCustomer.getEmail() + " " + "\n"
+
+                        )
+                        .show();
                 Toast.makeText(ClientsActivity.this, "Detalles del cliente", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_edit:
+                //////////// EDITAR CLIENTE
+                Intent IntCustomers = new Intent(getApplicationContext(),ClientsAddActivity.class);
+                IntCustomers.putExtra("customer",selectedCustomer);
+                startActivity(IntCustomers);
+
                 Toast.makeText(ClientsActivity.this, "Editar cliente", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_delete:
-                Toast.makeText(ClientsActivity.this, "Cliente eliminado", Toast.LENGTH_SHORT).show();
+                ///////////// SELECCIONADO CONTEXT MENU BORRAR
+
+                AlertDialog deleteDialog = new AlertDialog.Builder(this)
+                        .setTitle("Borrar")
+                        .setMessage(
+                                "¿Seguro que quieres borrar?" + "\n"
+                        )
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //////// ACEPTAR BORRAR /////////
+                                customerDao.delete(selectedCustomer);
+                                /// SEARCH
+                                String searchText = searchEditText.getText().toString(); // text to search
+                                List<Customer> customersResult = search(searchText);
+                                refreshCustomerList(customersResult);
+                                // Desplegar Cliente eliminado
+                                Toast.makeText(ClientsActivity.this, "Cliente eliminado", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void refreshCustomerList(List<Customer> customers){
+        // add customers to model
+        if(customers!=null) {
+            this.customers.clear();
+            this.customers.addAll(customers);
+        }
+
+        // notify adapter to update view
+        this.customersAdapter.notifyDataSetChanged();
+    }
+
+    private List<Customer> search(String searchText){
+        String query = "SELECT * FROM customers";
+        String orderby = " ORDER BY last_name ASC, first_name ASC";
+        String conditions = "";
+        ArrayList<String> starray = new ArrayList<String>();
+
+        boolean conditionsb = false;
+
+        for (StateVO i : listVOs){
+            if(i.isSelected()){
+                starray.add("%" + searchText + "%");
+                if(conditionsb) {
+                    // Hay mas de una condición, poner OR
+                    conditions += " OR";
+                }
+
+                if(i.getTitle() == "nombre")
+                    conditions += " first_name like ?";
+
+                if(i.getTitle() == "apellido")
+                    conditions += " last_name like ?";
+
+                if(i.getTitle() == "telefono") {
+                    conditions += " phone1 like ?";
+                    conditions += " OR phone2 like ?";
+                    conditions += " OR phone3 like ?";
+                }
+
+                if(i.getTitle() == "email")
+                    conditions += " e_mail like ?";
+
+                if(i.getTitle() == "dirección")
+                    conditions += " address like ?";
+
+                conditionsb = true;
+            }
+        }
+        if(conditionsb){
+            conditions = " WHERE" + conditions;
+        }
+
+        query = query + conditions + orderby;
+
+        Object[] tmp = starray.toArray();
+
+        SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, tmp);
+        List<Customer> cust = customerDao.findByQuery(q);
+        return cust;
     }
 }
