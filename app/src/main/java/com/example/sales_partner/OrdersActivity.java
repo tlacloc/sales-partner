@@ -2,6 +2,7 @@ package com.example.sales_partner;
 
 import android.app.DatePickerDialog;
 import android.arch.persistence.db.SimpleSQLiteQuery;
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -154,6 +155,9 @@ public class OrdersActivity extends AppCompatActivity {
         // notify adapter to update view
         orderAdapter.notifyDataSetChanged();
 
+        // REGISTRAR CONTEXT MENU
+        registerForContextMenu(orderList);
+
         //CUSTOMER SPINNER
         customerSpnr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -256,7 +260,7 @@ public class OrdersActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.clients_menu_toolbar, menu);
+
         int id= v.getId();
         MenuInflater inflater= getMenuInflater();
 
@@ -269,9 +273,17 @@ public class OrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        final OrderCustomer selectedOrder = (OrderCustomer) orderAdapter.getItem(info.position);
+
         switch (item.getItemId()) {
             //Elementos del menu contextual ordenes
             case R.id.action_ordetails:
+                //////////// DETALLES ORDEN
+                Intent IntOrders = new Intent(getApplicationContext(),OrdersDetailActivity.class);
+                IntOrders.putExtra("order",selectedOrder);
+                startActivity(IntOrders);
+
                 Toast.makeText(OrdersActivity.this, "Detalles de orden", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_oredit:
@@ -284,7 +296,7 @@ public class OrdersActivity extends AppCompatActivity {
                 Toast.makeText(OrdersActivity.this, "Regresar estado", Toast.LENGTH_SHORT).show();
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onContextItemSelected(item);
         }
     }
 

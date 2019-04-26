@@ -3,9 +3,10 @@ package com.example.sales_partner.model;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.room.RawQuery;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderCustomer {
+public class OrderCustomer implements Serializable {
    public int id;
    public String customerName;
    public String status;

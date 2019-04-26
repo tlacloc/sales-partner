@@ -115,12 +115,7 @@ public class ClientsActivity extends AppCompatActivity {
         customersAdapter.notifyDataSetChanged();
 
         // REGISTRAR CONTEXT MENU
-        registerForContextMenu(customerList);
-        //ArrayAdapter<String> adp= new ArrayAdapter<String>(ClientsActivity.this, android.R.layout.simple_list_item_1, customerFields);
-
-        //clientList.setAdapter(adp);
-
-                //Registrar los controles para menus contextuales
+        //Registrar los controles para menus contextuales
         registerForContextMenu(customerList);
     }
 

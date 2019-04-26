@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ReportsActivity"></activity>
         <activity android:name=".OrdersActivity" />
+        <activity android:name=".OrdersDetailActivity" />
         <activity android:name=".AssembliesActivity" />
         <activity android:name=".ClientsActivity" />
         <activity android:name=".ClientsAddActivity" />

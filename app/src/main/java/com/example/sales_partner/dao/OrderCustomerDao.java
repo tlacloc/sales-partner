@@ -4,6 +4,8 @@ import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
+
+import com.example.sales_partner.model.Order;
 import com.example.sales_partner.model.OrderCustomer;
 
 

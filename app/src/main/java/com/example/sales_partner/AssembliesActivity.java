@@ -62,6 +62,8 @@ public class AssembliesActivity extends AppCompatActivity {
 
         ListView assembliesList = (ListView) findViewById(R.id.assembliesList);
         assembliesList.setAdapter(assembliesAdapter);
+
+
         assembliesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +126,7 @@ public class AssembliesActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.products_menu_toolbar, menu);
+        getMenuInflater().inflate(R.menu.menu_contextual_ordenes, menu);
     }
 
     @Override
