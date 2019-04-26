@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Category;
 import com.example.sales_partner.model.Customer;
@@ -37,6 +38,8 @@ public class ClientsActivity extends AppCompatActivity {
 
     // DATA OBJECTS
     private CustomerDao customerDao;
+    private OrderDao orderDao;
+
 
     // VIEW COMPONENTS
     private Spinner spinner;
@@ -57,6 +60,7 @@ public class ClientsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: ");
 
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
+        orderDao = AppDatabase.getAppDatabase(getApplicationContext()).orderDao();
 
         // VIEW COMPONENTS INIT
         spinner = findViewById(R.id.Spnrclients);
@@ -160,11 +164,24 @@ public class ClientsActivity extends AppCompatActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         int id= v.getId();
+
         MenuInflater inflater= getMenuInflater();
 
         switch (id){
             case R.id.clientList:
+
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                Customer selectedCustomer = (Customer) customersAdapter.getItem(info.position);
+                List orders = orderDao.findByCustomer(selectedCustomer.getId());
+
                 inflater.inflate(R.menu.menu_contextual_clientes , menu);
+
+                // HIDE IF CUSTOMER HAS ORDERS
+                if(orders.size()>0){
+                    MenuItem menuItem = menu.findItem(R.id.action_delete);
+                    menuItem.setVisible(false);
+                }
+
                 break;
         }
     }
