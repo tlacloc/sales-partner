@@ -31,4 +31,7 @@
     <!-- Opciones del menú contextual para la pestaña auxiliar de agregar ensamble -->
     <string name="action_auxdetails">Detalles</string>
     <string name="action_auxadd">Agregar</string>
+
+    <!-- KEYS -->
+    <string name="CUSTOMER_ADD_SAVED">com.example.sales_partner.CUSTOMER_ADD_SAVED</string>
 </resources>
