@@ -3,6 +3,7 @@ package com.example.sales_partner;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.databinding.ActivityClientsAddBinding;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
 
@@ -33,6 +35,9 @@ public class ClientsAddActivity extends AppCompatActivity {
 
     // DATA OBJECTS
     private CustomerDao customerDao;
+
+    // Models
+    private Customer customer;
 
     // VIEW COMPONENTS
     EditText txtEditFirstName;
@@ -54,7 +59,17 @@ public class ClientsAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clients_add);
+        //setContentView(R.layout.activity_clients_add);
+
+        ActivityClientsAddBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_clients_add);
+
+        customer = (Customer)getIntent().getSerializableExtra("customer");
+        if(customer==null) customer = new Customer();
+
+        //customer = new Customer();
+        //customer.setFirstName("test");
+        binding.setCustomer(customer);
+
         Log.d(TAG, "onCreate: ");
 
         saved = false;
@@ -136,7 +151,7 @@ public class ClientsAddActivity extends AppCompatActivity {
                 if (enableSave){
 
                     //All data
-                    Customer newCustomer = new Customer();
+                    /*Customer newCustomer = new Customer();
                     newCustomer.setFirstName(firstName);
                     newCustomer.setLastName(lastName);
                     newCustomer.setPhone1(phone1);
@@ -144,18 +159,21 @@ public class ClientsAddActivity extends AppCompatActivity {
                     newCustomer.setPhone3(phone3);
                     newCustomer.setAddress(address);
                     newCustomer.setEmail(email);
-                    customerDao.insertAll(newCustomer);
+                    customerDao.insertAll(newCustomer);*/
+
+                    if(customer.getId() >= 0)
+                    	customerDao.update(customer);
+                	else
+                    	customerDao.insertAll(customer);
 
                     Toast.makeText(getApplicationContext(), "Datos guardados", Toast.LENGTH_SHORT).show();
+                    Intent IntCustomers = new Intent(getApplicationContext(),ClientsActivity.class);
+                    IntCustomers.putExtra("tag","start");
+                    startActivity(IntCustomers);
 
                 }else{
                     Toast.makeText(getApplicationContext(), "Falto llenar" + dialogString, Toast.LENGTH_SHORT).show();
                 }
-
-
-                /*Intent IntCustomers = new Intent(getApplicationContext(),ClientsActivity.class);
-                IntCustomers.putExtra("tag","start");
-                startActivity(IntCustomers);*/
 
             }
         });

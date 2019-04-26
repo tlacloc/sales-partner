@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ClientsActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarClients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+    <data>
+
+        <variable
+            name="customer"
+            type="com.example.sales_partner.model.Customer"/>
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="10dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarClients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
 
         <!-- Espacio para los datos de nombre -->
         <LinearLayout
@@ -37,8 +40,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:hint="Nombre" />
+                android:hint="Nombre"
+                android:text="@{customer.firstName}"/>
         </LinearLayout>
+
         <!-- Espacio para los datos de apellido -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,8 +60,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:hint="Apellido" />
+                android:hint="Apellido"
+                android:text="@{customer.lastName}" />
         </LinearLayout>
+
         <!-- Espacio para los datos de direccion -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,8 +81,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:hint="Dirección"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress"
+                android:text="@{customer.address}"/>
         </LinearLayout>
+
         <!-- Espacio para los datos de teléfonos -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,7 +102,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:hint="Telefono"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:text="@{customer.phone1}"/>
         </LinearLayout>
 
         <LinearLayout
@@ -117,7 +127,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:hint="Telefono"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:text="@{customer.phone2}"/>
 
 
         </LinearLayout>
@@ -141,8 +152,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:hint="Telefono"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:text="@{customer.phone3}"/>
         </LinearLayout>
+
         <!-- Espacio para los datos de email -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -164,7 +177,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:hint="Email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:text="@{customer.email}"/>
         </LinearLayout>
 
         <Button
@@ -176,5 +190,4 @@
     </LinearLayout>
 
 
-
-</LinearLayout>
+</layout>

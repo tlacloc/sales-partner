@@ -3,9 +3,13 @@ package com.example.sales_partner.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import java.io.Serializable;
 
 @Entity(tableName="customers")
-public class Customer {
+public class Customer extends BaseObservable implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private int id;
@@ -31,6 +35,15 @@ public class Customer {
     @ColumnInfo(name = "e_mail")
     private String email;
 
+    // CONSTRUCTORS
+
+    public Customer() {
+        this.id = -1;
+    }
+
+
+    // GETTERS AND SETTERS
+
     public int getId() {
         return id;
     }
@@ -38,6 +51,7 @@ public class Customer {
         this.id = id;
     }
 
+    @Bindable
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
 
@@ -53,7 +67,10 @@ public class Customer {
     }
 
     public String getPhone1() {
-        return phone1;
+        String p = "";
+        if(this.phone1!=null && !this.phone1.isEmpty())
+            p = this.phone1;
+        return p;
     }
 
     public void setPhone1(String phone1) {
@@ -85,6 +102,7 @@ public class Customer {
     }
 
     public String toString(){
-        return this.firstName + " " + this.lastName;
+        return this.lastName + " " + this.firstName + " " +
+                this.getPhone1() + " " + this.getEmail();
     }
 }

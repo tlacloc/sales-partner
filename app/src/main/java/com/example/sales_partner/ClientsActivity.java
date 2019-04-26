@@ -60,6 +60,15 @@ public class ClientsActivity extends AppCompatActivity {
         spinner = findViewById(R.id.Spnrclients);
         searchEditText = findViewById(R.id.clientSearchTxt);
         customerList = findViewById(R.id.clientList);
+        customerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Customer selectedCustomer = (Customer) customersAdapter.getItem(position);
+                Intent IntCustomers = new Intent(getApplicationContext(),ClientsAddActivity.class);
+                IntCustomers.putExtra("customer",selectedCustomer);
+                startActivity(IntCustomers);
+            }
+        });
 
         // init customer data model
         customers = new ArrayList<Customer>();
