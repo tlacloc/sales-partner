@@ -57,5 +57,9 @@ public class OrderStatus {
     public void setNext(String next) {
         this.next = next;
     }
+
+    public String toString() {
+        return this.description;
+    }
 }
 

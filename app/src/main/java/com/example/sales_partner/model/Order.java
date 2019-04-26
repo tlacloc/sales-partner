@@ -62,6 +62,8 @@ public class Order {
     }
 
     public String getChangeLog() {
+        if(changeLog==null)
+            return "";
         return changeLog;
     }
 

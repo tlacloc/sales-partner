@@ -29,6 +29,9 @@ public interface OrderDao {
     @Query("SELECT * FROM orders WHERE date LIKE :date")
     List<Order> findByDate(String date);
 
+    @Query("SELECT * FROM orders WHERE id LIKE :id")
+    Order findById(int id);
+
     @RawQuery
     List<Order> findByQuery(SimpleSQLiteQuery query);
 

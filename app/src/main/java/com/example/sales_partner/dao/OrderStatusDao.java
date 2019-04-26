@@ -11,6 +11,12 @@ import java.util.List;
 public interface OrderStatusDao {
     @Query("SELECT * FROM order_status")
     List<OrderStatus> getAll();
+
+    @Query("SELECT *\n" +
+            " FROM order_status\n" +
+            " WHERE id IN (:ids)")
+    List<OrderStatus> findNextStatus(List<Integer> ids);
+
     @Query("SELECT * FROM order_status WHERE description LIKE :desc")
     List<OrderStatus> findByDescription(String desc);
 

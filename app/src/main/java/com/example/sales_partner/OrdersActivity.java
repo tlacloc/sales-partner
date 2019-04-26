@@ -2,8 +2,9 @@ package com.example.sales_partner;
 
 import android.app.DatePickerDialog;
 import android.arch.persistence.db.SimpleSQLiteQuery;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sales_partner.dao.CustomerDao;
@@ -31,7 +32,12 @@ import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
 import com.example.sales_partner.model.OrderCustomer;
+import com.example.sales_partner.model.OrderStatus;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -266,7 +272,22 @@ public class OrdersActivity extends AppCompatActivity {
 
         switch (id){
             case R.id.orderList:
+                // GET SELECTED ITEM
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                OrderCustomer selectedOrder = (OrderCustomer) orderAdapter.getItem(info.position);
+
+                // INFLATE VIEW
                 inflater.inflate(R.menu.menu_contextual_ordenes , menu);
+
+                // DISABLE NEXT STATUS IF NECESSARY
+                MenuItem menuItem;
+                if(getStatusIntArrayFromString(selectedOrder.nextStatus).size()<=0){
+                    menuItem = menu.findItem(R.id.action_oravan);
+                    menuItem.setVisible(false);
+                }
+
+                menuItem = menu.findItem(R.id.action_orregre);
+                menuItem.setVisible(false);
                 break;
         }
     }
@@ -290,6 +311,50 @@ public class OrdersActivity extends AppCompatActivity {
                 Toast.makeText(OrdersActivity.this, "Editar orden", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_oravan:
+                ///// AVANZAR STATUS ORDEN
+
+                View v = this.getLayoutInflater().inflate(R.layout.dialog_order_status_change, null);
+                AlertDialog dialog = new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Cerrando ventana")
+                        .setCancelable(false)
+                        .setView(v)
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AlertDialog d = (AlertDialog)dialog;
+                                Spinner s = d.findViewById(R.id.spinnerStatus);
+                                TextView t = d.findViewById(R.id.changelog);
+                                OrderStatus status = (OrderStatus) s.getSelectedItem();
+
+                                int newStatusId = status.getId();
+                                String newChangelog = t.getText().toString();
+
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                Date date = new Date();
+                                String now = dateFormat.format(date);
+                                newChangelog = now + ": " + newChangelog;
+                                Order order = orderDao.findById(selectedOrder.id);
+                                order.setChangeLog(order.getChangeLog() + "\n" + newChangelog);
+                                order.setStatusId(newStatusId);
+                                orderDao.update(order);
+                                updateOrders(orderCustomerDao.getAll());
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+
+                // Get Dialog Spinner
+                Spinner s = v.findViewById(R.id.spinnerStatus);
+
+                // PARSE string to List<Integer>
+                List<Integer> n = getStatusIntArrayFromString(selectedOrder.nextStatus);
+                List<OrderStatus> status = orderStatusDao.findNextStatus(n);
+
+                ArrayAdapter statusAdapter = new ArrayAdapter(this, R.layout.text_list, status);
+                s.setAdapter(statusAdapter);
+
+
                 Toast.makeText(OrdersActivity.this, "Avanzar estado", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_orregre:
@@ -298,6 +363,20 @@ public class OrdersActivity extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private List<Integer> getStatusIntArrayFromString(String nextStatus) {
+        String foo = nextStatus;
+        String[] split = foo.split(",");
+        List<Integer> n = new ArrayList<Integer>();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < split.length; i++) {
+            try{
+                Integer j = Integer.parseInt(split[i]);
+                n.add(j);
+            }catch (Exception e){}
+        }
+        return n;
     }
 
     private void onSearchMenuClicked() {
@@ -483,6 +562,7 @@ public class OrdersActivity extends AppCompatActivity {
 
         return selectedStatus;
     }
+
 
     private void updateOrders(List<OrderCustomer> newOrder) {
 

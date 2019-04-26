@@ -18,6 +18,7 @@ public interface OrderCustomerDao {
             "id,\n" +
             "customerId AS customerId,\n " +
             "statusId AS statusId,\n" +
+            "nextStatus AS nextStatus, \n" +
             "customerName,\n" +
             "status,\n" +
             "date,\n" +
@@ -29,6 +30,7 @@ public interface OrderCustomerDao {
             "SELECT \n" +
             "orders.id AS id,\n" +
             "order_status.id AS statusId,\n"+
+            "order_status.next AS nextStatus,\n" +
             "customers.id AS customerId,\n" +
             "customers.first_name as customerName,\n" +
             "orders.date as date,\n" +

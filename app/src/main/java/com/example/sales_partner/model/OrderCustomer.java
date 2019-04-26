@@ -9,9 +9,13 @@ import java.util.List;
 public class OrderCustomer implements Serializable {
    public int id;
    public String customerName;
+
    public String status;
-   public int customerId;
    public int statusId;
+   public String nextStatus;
+
+
+   public int customerId;
    public String date;
    public int assemblies;
    public int price;
