@@ -1,5 +1,6 @@
 package com.example.sales_partner;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,14 +8,17 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
 
 import com.example.sales_partner.dao.AssemblyDao;
+import com.example.sales_partner.dao.AssemblyProductsDao;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.AssemblyExtended;
+import com.example.sales_partner.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ public class AssembliesActivity extends AppCompatActivity {
 
     //DATA OBJECTS
     private AssemblyDao assemblyDao;
+    private AssemblyProductsDao assemblyProductsDao;
 
     // VIEW COMPONENTS
     private EditText searchEditText;
@@ -44,6 +49,7 @@ public class AssembliesActivity extends AppCompatActivity {
 
         //DB INIT
         assemblyDao = AppDatabase.getAppDatabase(getApplicationContext()).assemblyDao();
+        assemblyProductsDao = AppDatabase.getAppDatabase(getApplicationContext()).assemblyProductsDao();
 
         // VIEW COMPONENTS INIT
         searchEditText = findViewById(R.id.assembliesTxt);
@@ -56,6 +62,28 @@ public class AssembliesActivity extends AppCompatActivity {
 
         ListView assembliesList = (ListView) findViewById(R.id.assembliesList);
         assembliesList.setAdapter(assembliesAdapter);
+        assembliesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AssemblyExtended selectedAssembly = (AssemblyExtended) assembliesAdapter.getItem(position);
+                List<Product> products = assemblyProductsDao.findByAssemblyId(selectedAssembly.getId());
+                String listOfProductsString = "";
+
+                for (Product product : products) {
+                    listOfProductsString += product.getDescription() + "\n" +
+                            " Q: " + product.getQuantity() + " P: $" + product.getPrice() + "\n\n";
+                }
+
+                AlertDialog alertDialog = new AlertDialog.Builder(parent.getContext())
+                        .setTitle("Ensamble")
+                        .setMessage(
+                                "Producto: " + selectedAssembly.getDescription() + " " + "\n\n" +
+                                "Precio Total: $" + selectedAssembly.getPrice() + " " + "\n\n" +
+                                "Productos: \n\n" + listOfProductsString
+                        )
+                        .show();
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
