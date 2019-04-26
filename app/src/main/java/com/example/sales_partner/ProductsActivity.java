@@ -1,5 +1,6 @@
 package com.example.sales_partner;
 
+import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,6 +79,20 @@ public class ProductsActivity extends AppCompatActivity {
 
         ListView productList = (ListView) findViewById(R.id.productsList);
         productList.setAdapter(productsAdapter);
+        productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product selectedProduct = (Product) productsAdapter.getItem(position);
+                AlertDialog alertDialog = new AlertDialog.Builder(parent.getContext())
+                        .setTitle("Producto")
+                        .setMessage(
+                            "Producto: " + selectedProduct.getDescription() + " " + "\n\n" +
+                            "Precio: $" + selectedProduct.getPrice() + " " + "\n\n" +
+                            "Cantidad: " + selectedProduct.getQuantity() + " " + "\n"
+                        )
+                        .show();
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
