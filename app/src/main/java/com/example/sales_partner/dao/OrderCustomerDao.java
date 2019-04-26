@@ -22,7 +22,8 @@ public interface OrderCustomerDao {
             "status,\n" +
             "date,\n" +
             "assemblies_qty as assemblies,\n" +
-            "SUM(subtotal) as price\n" +
+            "SUM(subtotal) as price,\n" +
+            "changelog as changelog \n" +
             "FROM\n" +
             "(\n" +
             "SELECT \n" +
@@ -33,6 +34,7 @@ public interface OrderCustomerDao {
             "orders.date as date,\n" +
             "order_status.description as status,\n" +
             "order_assemblies.assembly_id as assembly_id,\n" +
+            "orders.change_log as changelog, \n" +
             "SUM(order_assemblies.qty) as assemblies_qty,\n" +
             "assembly_products.qty as assembly_products_qty,\n" +
             "products.id as product_id,\n" +

@@ -15,6 +15,7 @@ public class OrderCustomer implements Serializable {
    public String date;
    public int assemblies;
    public int price;
+   public String changelog;
 
 
    public String toString() {

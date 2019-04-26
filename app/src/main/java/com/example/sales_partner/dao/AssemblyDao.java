@@ -7,6 +7,7 @@ import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.Assembly;
 import com.example.sales_partner.model.AssemblyExtended;
+import com.example.sales_partner.model.OrderExtended;
 
 
 import java.util.List;
@@ -29,8 +30,27 @@ public interface AssemblyDao {
             "ORDER BY assemblies.description ASC")
     List<AssemblyExtended> getExtendedByDescription(String desc);
 
-    @Query("SELECT * FROM assemblies WHERE description LIKE :desc ORDER BY description ASC")
-    List<Assembly> findByDescription(String desc);
+    @Query("SELECT \n" +
+            "id, \n" +
+            "assembly_id as assemblyId,\n" +
+            "qty as qty, \n" +
+            "description assembly,\n" +
+            "numProducts,\n" +
+            "price as assemblyPrice\n" +
+            "\tFROM order_assemblies\n" +
+            "\tINNER JOIN (\n" +
+            "\tSELECT \n" +
+            "\tassemblies.id as assemblyId,\n" +
+            "\tassemblies.description,\n" +
+            "\tCOUNT(assemblies.id) as numProducts,\n" +
+            "\tSUM(products.price) as price\n" +
+            "\tFROM assemblies \n" +
+            "\tINNER JOIN assembly_products ON assembly_products.id = assemblies.id\n" +
+            "\tINNER JOIN products ON products.id = assembly_products.product_id\n" +
+            "\tGROUP BY assemblies.id\n" +
+            "\t\t\t) tab ON tab.assemblyId = order_assemblies.assembly_id\n" +
+            "\tWHERE order_assemblies.id = :orderId")
+    List<OrderExtended> findByOrderId(int orderId);
 
     @Insert
     void insertAll(Assembly assembly);
