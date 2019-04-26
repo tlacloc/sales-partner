@@ -1,6 +1,5 @@
 package com.example.sales_partner;
 
-import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,25 +7,16 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.databinding.ActivityClientsAddBinding;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClientsAddActivity extends AppCompatActivity {
     private boolean validationOn = false;
@@ -73,7 +63,7 @@ public class ClientsAddActivity extends AppCompatActivity {
     EditText txtEditPhone1;
     EditText txtEditPhone2;
     EditText txtEditPhone3;
-    EditText txtEditAdress;
+    EditText tatEditAddress;
     EditText txtEditEmail;
 
     Button btnCustomerSave;
@@ -110,7 +100,7 @@ public class ClientsAddActivity extends AppCompatActivity {
         txtEditPhone1 = findViewById(R.id.txtEditPhone1);
         txtEditPhone2 = findViewById(R.id.txtEditPhone2);
         txtEditPhone3 = findViewById(R.id.txtEditPhone3);
-        txtEditAdress = findViewById(R.id.txtEditAdress);
+        tatEditAddress = findViewById(R.id.txtEditAdress);
         txtEditEmail = findViewById(R.id.txtEditEmail);
 
         btnCustomerSave = findViewById(R.id.btnCustomerSave);
@@ -132,7 +122,7 @@ public class ClientsAddActivity extends AppCompatActivity {
                 String phone1 = txtEditPhone1.getText().toString();
                 String phone2 = txtEditPhone2.getText().toString();
                 String phone3 = txtEditPhone3.getText().toString();
-                String address = txtEditAdress.getText().toString();
+                String address = tatEditAddress.getText().toString();
                 String email = txtEditEmail.getText().toString();
 
                 String dialogString = "";
@@ -199,6 +189,7 @@ public class ClientsAddActivity extends AppCompatActivity {
                     Intent IntCustomers = new Intent(getApplicationContext(),ClientsActivity.class);
                     IntCustomers.putExtra("tag","start");
                     startActivity(IntCustomers);
+                    finish();
 
                 }else{
                     Toast.makeText(getApplicationContext(), "Falto llenar" + dialogString, Toast.LENGTH_SHORT).show();
