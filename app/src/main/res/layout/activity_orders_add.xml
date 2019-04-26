@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filtrar: " />
+            android:text="Filtrar por estado de orden: " />
 
         <Spinner
             android:id="@+id/statusOrdersSpnrSelect"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filtrar: " />
+            android:text="Filtrar por cliente: " />
 
         <Spinner
             android:id="@+id/customerOrdersSpnrSelect"
@@ -88,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="Buscar en calendario"
             android:onClick="showStartDatePickerDialog" />
 
     </LinearLayout>
@@ -130,13 +131,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="Buscar en calendario"
             android:onClick="showDatePickerDialog" />
 
     </LinearLayout>
 
     <ListView
         android:id="@+id/orderList"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

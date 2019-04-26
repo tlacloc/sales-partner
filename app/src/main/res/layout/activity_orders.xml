@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filtrar: " />
+            android:text="Filtrar por status: " />
 
         <Spinner
             android:id="@+id/statusOrdersSpnrSelect"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filtrar: " />
+            android:text="Filtrar por cliente: " />
 
         <Spinner
             android:id="@+id/customerOrdersSpnrSelect"
