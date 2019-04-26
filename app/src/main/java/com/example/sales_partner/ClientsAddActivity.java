@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientsAddActivity extends AppCompatActivity {
-    private boolean validationOn = true;
+    private boolean validationOn = false;
 
     //LOG
     private static final String TAG = "ClientsActivity";
@@ -184,7 +184,7 @@ public class ClientsAddActivity extends AppCompatActivity {
     //CONFIRM DELETE UNSAVED DATA
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
         Log.d(TAG, "onBackPressed: ");
 
         if (!saved) {
