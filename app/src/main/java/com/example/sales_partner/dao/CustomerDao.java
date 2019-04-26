@@ -22,11 +22,11 @@ public interface CustomerDao {
     List<Customer> findByQuery(SimpleSQLiteQuery query);
 
     @Insert
-    void insertAll(Customer product);
+    void insertAll(Customer... customer);
 
     @Update
-    void update(Customer... product);
+    void update(Customer... customer);
 
     @Delete
-    void delete(Customer... product);
+    void delete(Customer... customer);
 }
