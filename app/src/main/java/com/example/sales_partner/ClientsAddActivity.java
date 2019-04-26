@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientsAddActivity extends AppCompatActivity {
+    private boolean validationOn = true;
 
     //LOG
     private static final String TAG = "ClientsActivity";
@@ -66,15 +67,14 @@ public class ClientsAddActivity extends AppCompatActivity {
         customer = (Customer)getIntent().getSerializableExtra("customer");
         if(customer==null) customer = new Customer();
 
-        //customer = new Customer();
-        //customer.setFirstName("test");
         binding.setCustomer(customer);
+
+        customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
 
         Log.d(TAG, "onCreate: ");
 
         saved = false;
 
-        customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
 
         // VIEW COMPONENTS INIT
         txtEditFirstName = findViewById(R.id.txtEditFirstName);
@@ -109,57 +109,58 @@ public class ClientsAddActivity extends AppCompatActivity {
 
                 String dialogString = "";
 
+                if(validationOn){
+                    if (firstName.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Nombre";
+                    }
+                    if (lastName.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Apellido";
+                    }
+                    if (phone1.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Telefono";
+                    }
+                    if (address.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Direccion";
+                    }
 
-                if (firstName.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Nombre";
-                }
-                if (lastName.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Apellido";
-                }
-                if (phone1.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Telefono";
-                }
-                if (address.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Direccion";
-                }
+                    if (checkBoxEmail.isChecked() && email.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Email";
+                    }
+                    if (checkBoxPhone2.isChecked() && phone2.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Telefono 2";
+                    }
+                    if (checkBoxPhone3.isChecked() && phone3.isEmpty()){
+                        //MISSING DATA
+                        enableSave = false;
+                        dialogString += " Telefono 3";
+                    }
+                } else { enableSave = true; }
 
-                if (checkBoxEmail.isChecked() && email.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Email";
-                }
-                if (checkBoxPhone2.isChecked() && phone2.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Telefono 2";
-                }
-                if (checkBoxPhone3.isChecked() && phone3.isEmpty()){
-                    //MISSING DATA
-                    enableSave = false;
-                    dialogString += " Telefono 3";
-                }
 
 
                 if (enableSave){
 
                     //All data
-                    /*Customer newCustomer = new Customer();
-                    newCustomer.setFirstName(firstName);
-                    newCustomer.setLastName(lastName);
-                    newCustomer.setPhone1(phone1);
-                    newCustomer.setPhone2(phone2);
-                    newCustomer.setPhone3(phone3);
-                    newCustomer.setAddress(address);
-                    newCustomer.setEmail(email);
-                    customerDao.insertAll(newCustomer);*/
+                    customer.setFirstName(firstName);
+                    customer.setLastName(lastName);
+                    customer.setPhone1(phone1);
+                    customer.setPhone2(phone2);
+                    customer.setPhone3(phone3);
+                    customer.setAddress(address);
+                    customer.setEmail(email);
+                    //customerDao.insertAll(customer);
 
                     if(customer.getId() >= 0)
                     	customerDao.update(customer);
@@ -185,9 +186,9 @@ public class ClientsAddActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Log.d(TAG, "onBackPressed: ");
-        
+
         if (!saved) {
-            
+
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Cerrando ventana")
