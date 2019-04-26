@@ -18,7 +18,7 @@ import com.example.sales_partner.databinding.ActivityClientsAddBinding;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
 
-public class ClientsAddActivity extends AppCompatActivity {
+public class OrdersAddActivity extends AppCompatActivity {
     private boolean validationOn = false;
 
     //LOG
@@ -180,7 +180,7 @@ public class ClientsAddActivity extends AppCompatActivity {
                     customer.setEmail(email);
                     //customerDao.insertAll(customer);
 
-                    if(customer.getId() > 0)
+                    if(customer.getId() >= 0)
                     	customerDao.update(customer);
                 	else
                     	customerDao.insertAll(customer);

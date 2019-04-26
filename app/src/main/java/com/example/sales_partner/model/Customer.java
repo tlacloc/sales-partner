@@ -38,7 +38,6 @@ public class Customer extends BaseObservable implements Serializable {
     // CONSTRUCTORS
 
     public Customer() {
-        this.id = -1;
     }
 
 

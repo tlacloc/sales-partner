@@ -171,12 +171,12 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 605, 1)");
 
                             // CUSTOMERS
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (0, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (1, 'José', 'Medina', 'C.42 x 51 y 53, Col. Centro', '997-5491235', '997-4561289', NULL, 'medina96@yahoo.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (2, 'Erika', 'Mojica', 'C.18 x Av. Sierra, Fracc. La Huerta', '952-4567823', '998-6324582', '998-6541279', 'erikam98@gmail.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (3, 'Gabriel', 'Alemán', 'Av. Justo Madero x 44, Col. Boulevard', NULL, NULL, NULL, 'gabasoluciones@live.com')");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (4, 'Perla', 'Montalvo', 'C.101B x 98 y 100, Fracc. Vista Alegre', '977-4612536', '995-1268745', NULL, NULL)");
-                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (5, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (1, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (2, 'José', 'Medina', 'C.42 x 51 y 53, Col. Centro', '997-5491235', '997-4561289', NULL, 'medina96@yahoo.com')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (3, 'Erika', 'Mojica', 'C.18 x Av. Sierra, Fracc. La Huerta', '952-4567823', '998-6324582', '998-6541279', 'erikam98@gmail.com')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (4, 'Gabriel', 'Alemán', 'Av. Justo Madero x 44, Col. Boulevard', NULL, NULL, NULL, 'gabasoluciones@live.com')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (5, 'Perla', 'Montalvo', 'C.101B x 98 y 100, Fracc. Vista Alegre', '977-4612536', '995-1268745', NULL, NULL)");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (6, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx')");
 
                             // INSERT PRODUCTS
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (0, 0, 'Western Digital Purple WD10PURX, 3.5\", 1TB, SATA3, 6GB/s, 64MB, IntelliPower', 149900, 2)");
