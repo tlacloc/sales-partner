@@ -165,9 +165,11 @@ public class ClientsActivity extends AppCompatActivity {
                 return true;
 
             case R.id.add_menu_item:
+
                 Intent IntCustomers = new Intent(getApplicationContext(),ClientsAddActivity.class);
                 IntCustomers.putExtra("tag","start");
                 startActivity(IntCustomers);
+
                 return true;
 
             default:

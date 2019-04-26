@@ -1,8 +1,10 @@
 package com.example.sales_partner;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -11,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.db.AppDatabase;
@@ -33,7 +37,19 @@ public class ClientsAddActivity extends AppCompatActivity {
     // VIEW COMPONENTS
     EditText txtEditFirstName;
     EditText txtEditLastName;
+    EditText txtEditPhone1;
+    EditText txtEditPhone2;
+    EditText txtEditPhone3;
+    EditText txtEditAdress;
+    EditText txtEditEmail;
+
     Button btnCustomerSave;
+
+    CheckBox checkBoxPhone2;
+    CheckBox checkBoxPhone3;
+    CheckBox checkBoxEmail;
+
+    private boolean saved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +57,132 @@ public class ClientsAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_clients_add);
         Log.d(TAG, "onCreate: ");
 
+        saved = false;
+
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
 
         // VIEW COMPONENTS INIT
-        txtEditFirstName= findViewById(R.id.txtEditFirstName);
+        txtEditFirstName = findViewById(R.id.txtEditFirstName);
         txtEditLastName = findViewById(R.id.txtEditLastName);
+        txtEditPhone1 = findViewById(R.id.txtEditPhone1);
+        txtEditPhone2 = findViewById(R.id.txtEditPhone2);
+        txtEditPhone3 = findViewById(R.id.txtEditPhone3);
+        txtEditAdress = findViewById(R.id.txtEditAdress);
+        txtEditEmail = findViewById(R.id.txtEditEmail);
+
         btnCustomerSave = findViewById(R.id.btnCustomerSave);
+
+        checkBoxPhone2 = findViewById(R.id.checkboxPhone2);
+        checkBoxPhone3 = findViewById(R.id.checkboxPhone3);
+        checkBoxEmail = findViewById(R.id.checkboxEmail);
+
         btnCustomerSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                boolean enableSave;
+                enableSave = true;
+
+                //SAVING DATA
                 String firstName = txtEditFirstName.getText().toString();
                 String lastName = txtEditLastName.getText().toString();
-                Customer newCustomer = new Customer();
-                newCustomer.setFirstName(firstName);
-                newCustomer.setLastName(lastName);
-                customerDao.insertAll(newCustomer);
+                String phone1 = txtEditPhone1.getText().toString();
+                String phone2 = txtEditPhone2.getText().toString();
+                String phone3 = txtEditPhone3.getText().toString();
+                String address = txtEditAdress.getText().toString();
+                String email = txtEditEmail.getText().toString();
 
-                Intent IntCustomers = new Intent(getApplicationContext(),ClientsActivity.class);
+                String dialogString = "";
+
+
+                if (firstName.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Nombre";
+                }
+                if (lastName.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Apellido";
+                }
+                if (phone1.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Telefono";
+                }
+                if (address.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Direccion";
+                }
+
+                if (checkBoxEmail.isChecked() && email.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Email";
+                }
+                if (checkBoxPhone2.isChecked() && phone2.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Telefono 2";
+                }
+                if (checkBoxPhone3.isChecked() && phone3.isEmpty()){
+                    //MISSING DATA
+                    enableSave = false;
+                    dialogString += " Telefono 3";
+                }
+
+
+                if (enableSave){
+
+                    //All data
+                    Customer newCustomer = new Customer();
+                    newCustomer.setFirstName(firstName);
+                    newCustomer.setLastName(lastName);
+                    newCustomer.setPhone1(phone1);
+                    newCustomer.setPhone2(phone2);
+                    newCustomer.setPhone3(phone3);
+                    newCustomer.setAddress(address);
+                    newCustomer.setEmail(email);
+                    customerDao.insertAll(newCustomer);
+
+                    Toast.makeText(getApplicationContext(), "Datos guardados", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Falto llenar" + dialogString, Toast.LENGTH_SHORT).show();
+                }
+
+
+                /*Intent IntCustomers = new Intent(getApplicationContext(),ClientsActivity.class);
                 IntCustomers.putExtra("tag","start");
-                startActivity(IntCustomers);
+                startActivity(IntCustomers);*/
 
             }
         });
     }
 
+
+    //CONFIRM DELETE UNSAVED DATA
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "onBackPressed: ");
+        
+        if (!saved) {
+            
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Cerrando ventana")
+                    .setCancelable(false)
+                    .setMessage("¿Está seguro que desea salir sin guardar")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+    }
 }
