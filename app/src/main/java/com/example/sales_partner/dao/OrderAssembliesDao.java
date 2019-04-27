@@ -25,7 +25,7 @@ public interface OrderAssembliesDao {
     List<Assembly> findByOrderId(int orderId);
 
     @Insert
-    void insertAll(OrderAssemblies... assembly);
+    long[] insertAll(OrderAssemblies... assembly);
 
     @Update
     void update(OrderAssemblies... assembly);

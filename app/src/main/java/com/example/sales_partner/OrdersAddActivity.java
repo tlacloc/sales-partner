@@ -1,34 +1,24 @@
 package com.example.sales_partner;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.OrderAssembliesDao;
 import com.example.sales_partner.dao.OrderDao;
-import com.example.sales_partner.databinding.ActivityClientsAddBinding;
-import com.example.sales_partner.databinding.ActivityOrdersAddBinding;
 import com.example.sales_partner.db.AppDatabase;
-import com.example.sales_partner.model.Assembly;
 import com.example.sales_partner.model.AssemblyExtended;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
 import com.example.sales_partner.model.OrderAssemblies;
-import com.facebook.stetho.inspector.protocol.module.CSS;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -106,23 +96,25 @@ public class OrdersAddActivity extends AppCompatActivity {
                 System.out.println(assemblies);
 
                 ////// ADD ORDER TO DATABASE, SAVE DATE AND STATUS TO PENDIENTE
-                long id = saveOrder(); // gets data and saves order
 
-                List <OrderAssemblies> assembliesToSave = new ArrayList<OrderAssemblies>();
-                for (AssemblyExtended assembly : assemblies) {
-                    int assemblyId = assembly.getId();
-                    int qty = assembly.getQty();
-                    if(qty==0)
-                        continue;
+                AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+                db.beginTransaction();
+                try{
+                    //do multiple database operations here
+                    long id = saveOrder(); // gets data and saves order
+                    long[] ids = saveOrderAssemblies((int) id);
 
-                    OrderAssemblies newOrderAssembly = new OrderAssemblies();
-                    newOrderAssembly.setQty(qty);
-                    newOrderAssembly.setId((int)id);
-                    newOrderAssembly.setAssemblyId(assemblyId);
-                    assembliesToSave.add(newOrderAssembly);
+                    //which throws exceptions on error
+                    db.setTransactionSuccessful();
+                    //do not any more database operations between
+                    //setTransactionSuccessful and endTransaction
+                }catch(Exception e){
+                    //end the transaction on error too when doing exception handling
+                    db.endTransaction();
+                    throw e;
                 }
-                OrderAssemblies[] arr = assembliesToSave.toArray(new OrderAssemblies[0]);
-                orderAssembliesDao.insertAll(arr);
+                //end the transaction on no error
+                db.endTransaction();
             }
         });
 
@@ -136,6 +128,28 @@ public class OrdersAddActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private long[] saveOrderAssemblies(int id) {
+        List<OrderAssemblies> assembliesToSave = new ArrayList<OrderAssemblies>();
+        for (AssemblyExtended assembly : assemblies) {
+            int assemblyId = assembly.getId();
+            int qty = assembly.getQty();
+            if(qty==0)
+                continue;
+
+            OrderAssemblies newOrderAssembly = new OrderAssemblies();
+            newOrderAssembly.setQty(qty);
+            newOrderAssembly.setId(id);
+            newOrderAssembly.setAssemblyId(assemblyId);
+            assembliesToSave.add(newOrderAssembly);
+        }
+        OrderAssemblies[] arr = assembliesToSave.toArray(new OrderAssemblies[0]);
+
+        // SAVE TO DATABASE
+        long[] ids = orderAssembliesDao.insertAll(arr);
+
+        return ids;
     }
 
     private long saveOrder() {
@@ -155,7 +169,7 @@ public class OrdersAddActivity extends AppCompatActivity {
         newOrder.setStatusId(statusId);
         newOrder.setDate(date);
 
-        // Add order to DB, TODO: add also assamblies
+        // SAVE TO DATABASE
         long[] ids  = ordersDao.insertAll(newOrder);
 
         // get the id of the saved order
