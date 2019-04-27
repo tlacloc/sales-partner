@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.db.AppDatabase;
+import com.example.sales_partner.dialogs.DialogDelete;
 import com.example.sales_partner.model.Category;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Product;
@@ -31,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ClientsActivity extends AppCompatActivity {
+public class ClientsActivity extends AppCompatActivity implements DialogDelete.OnDialogListener {
 
     //LOG
     private static final String TAG = "ClientsActivity";
@@ -52,6 +55,9 @@ public class ClientsActivity extends AppCompatActivity {
 
     // Adapters
     private ArrayAdapter customersAdapter;
+
+    //bfjkbkjsfbgkjsd
+    private MenuItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +135,8 @@ public class ClientsActivity extends AppCompatActivity {
 
     // SEARCH BUTTON ACTION
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem itema) {
+        switch (itema.getItemId()) {
             case R.id.search_menu_item:
                 /// SEARCH
                 String searchText = searchEditText.getText().toString(); // text to search
@@ -149,7 +155,7 @@ public class ClientsActivity extends AppCompatActivity {
                 return true;
 
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(itema);
         }
     }
 
@@ -183,8 +189,8 @@ public class ClientsActivity extends AppCompatActivity {
     //Accion de seleccionar opcion en el menu contextual
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        final Customer selectedCustomer = (Customer) customersAdapter.getItem(info.position);
+       AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+       final Customer selectedCustomer = (Customer) customersAdapter.getItem(info.position);
 
         switch (item.getItemId()) {
             //Elementos del menu contextual clientes
@@ -213,8 +219,16 @@ public class ClientsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete:
                 ///////////// SELECCIONADO CONTEXT MENU BORRAR
+                FragmentManager fragmentManager= getSupportFragmentManager();
+                DialogFragment fragment= (DialogFragment) fragmentManager.findFragmentByTag(DialogDelete.TAG);
 
-                AlertDialog deleteDialog = new AlertDialog.Builder(this)
+                if(fragment == null){
+                    fragment = new DialogDelete();
+
+                }
+                fragment.show(getSupportFragmentManager(), DialogDelete.TAG);
+
+               /* AlertDialog deleteDialog = new AlertDialog.Builder(this)
                         .setTitle("Borrar")
                         .setMessage(
                                 "¿Seguro que quieres borrar?" + "\n"
@@ -238,12 +252,17 @@ public class ClientsActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         })
-                        .show();
+                        .show();*/
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
+
+   /* private void eliminar(AdapterView.AdapterContextMenuInfo info){
+       customers.remove(info.position);
+        customersAdapter.notifyDataSetChanged();
+    }*/
 
     private void refreshCustomerList(List<Customer> customers){
         // add customers to model
@@ -304,5 +323,18 @@ public class ClientsActivity extends AppCompatActivity {
         SimpleSQLiteQuery q = new SimpleSQLiteQuery(query, tmp);
         List<Customer> cust = customerDao.findByQuery(q);
         return cust;
+    }
+
+    @Override
+    public void OnPositiveButtonClicked() {
+        //////// ACEPTAR BORRAR /////////
+        //eliminar();
+        //No funciona
+        Toast.makeText(ClientsActivity.this, "Cliente eliminado", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void OnNegativeButtonClicked() {
+        Toast.makeText(ClientsActivity.this, "Operacion cancelada", Toast.LENGTH_SHORT).show();
     }
 }
