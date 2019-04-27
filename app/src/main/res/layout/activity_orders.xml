@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+        <variable
+            name="enableStartDate"
+            type="boolean" />
+
+        <variable
+            name="enableEndDate"
+            type="boolean" />
+    </data>
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -65,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="habilitar filtrado" />
+            android:text="habilitar filtrado"
+            android:checked="@={enableStartDate}"/>
 
     </LinearLayout>
 
@@ -81,7 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="YYYY-MM-DD"
-            android:inputType="date" />
+            android:inputType="date"
+            android:enabled="@{enableStartDate}"/>
 
         <Button
             android:id="@+id/btnOrdersStartDate"
@@ -89,7 +103,8 @@
             android:layout_height="wrap_content"
             android:text="ver en calendario"
             android:layout_weight="1"
-            android:onClick="showStartDatePickerDialog" />
+            android:onClick="showStartDatePickerDialog"
+            android:enabled="@{enableStartDate}"/>
 
     </LinearLayout>
 
@@ -108,7 +123,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="habilitar filtrado" />
+            android:text="habilitar filtrado"
+            android:checked="@={enableEndDate}"/>
 
     </LinearLayout>
 
@@ -124,7 +140,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="YYYY-MM-DD"
-            android:inputType="date" />
+            android:inputType="date"
+            android:enabled="@{enableEndDate}"/>
 
         <Button
             android:id="@+id/btnOrdersEndDate"
@@ -132,7 +149,8 @@
             android:layout_height="wrap_content"
             android:text="Ver en calendario"
             android:layout_weight="1"
-            android:onClick="showDatePickerDialog" />
+            android:onClick="showDatePickerDialog"
+            android:enabled="@{enableEndDate}"/>
 
     </LinearLayout>
 
@@ -146,3 +164,5 @@
 
 
 </LinearLayout>
+
+</layout>

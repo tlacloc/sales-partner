@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.OrderCustomerDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.dao.OrderStatusDao;
+import com.example.sales_partner.databinding.ActivityClientsAddBinding;
+import com.example.sales_partner.databinding.ActivityOrdersBinding;
 import com.example.sales_partner.db.AppDatabase;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
@@ -63,6 +66,27 @@ public class OrdersActivity extends AppCompatActivity {
     private OrderStatusDao orderStatusDao;
     private OrderCustomerDao orderCustomerDao;
 
+    private boolean enableStartDate = false;
+    private boolean enableEndDate = false;
+
+    /////// GETTERS AND SETTERS
+
+    public boolean isEnableStartDate() {
+        return enableStartDate;
+    }
+
+    public void setEnableStartDate(boolean enableStartDate) {
+        this.enableStartDate = enableStartDate;
+    }
+
+    public boolean isEnableEndDate() {
+        return enableEndDate;
+    }
+
+    public void setEnableEndDate(boolean enableEndDate) {
+        this.enableEndDate = enableEndDate;
+    }
+
     // VIEW COMPONENTS
     private Spinner statusSpnr;
     private Spinner customerSpnr;
@@ -89,9 +113,13 @@ public class OrdersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders);
         Log.d(TAG, "onCreate: ");
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_orders);
+        ActivityOrdersBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_orders);
+
+        binding.setEnableStartDate(enableStartDate);
+        binding.setEnableEndDate(enableEndDate);
 
         orderDao = AppDatabase.getAppDatabase(getApplicationContext()).orderDao();
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
