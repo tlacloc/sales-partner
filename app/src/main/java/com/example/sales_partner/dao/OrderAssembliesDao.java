@@ -7,6 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.Assembly;
+import com.example.sales_partner.model.OrderAssemblies;
 
 import java.util.List;
 
@@ -24,11 +25,11 @@ public interface OrderAssembliesDao {
     List<Assembly> findByOrderId(int orderId);
 
     @Insert
-    void insertAll(Assembly assembly);
+    void insertAll(OrderAssemblies... assembly);
 
     @Update
-    void update(Assembly... assembly);
+    void update(OrderAssemblies... assembly);
 
     @Delete
-    void delete(Assembly... assembly);
+    void delete(OrderAssemblies... assembly);
 }

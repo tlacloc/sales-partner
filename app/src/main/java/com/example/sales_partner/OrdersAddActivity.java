@@ -18,17 +18,21 @@ import android.widget.Toast;
 
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderAssembliesDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.databinding.ActivityClientsAddBinding;
 import com.example.sales_partner.databinding.ActivityOrdersAddBinding;
 import com.example.sales_partner.db.AppDatabase;
+import com.example.sales_partner.model.Assembly;
 import com.example.sales_partner.model.AssemblyExtended;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
+import com.example.sales_partner.model.OrderAssemblies;
 import com.facebook.stetho.inspector.protocol.module.CSS;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +41,7 @@ public class OrdersAddActivity extends AppCompatActivity {
     // DATA OBJECTS
     private CustomerDao customerDao;
     private AssemblyDao assemblyDao;
+    private OrderAssembliesDao orderAssembliesDao;
     private OrderDao ordersDao;
 
     // Models
@@ -75,6 +80,7 @@ public class OrdersAddActivity extends AppCompatActivity {
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
         assemblyDao = AppDatabase.getAppDatabase(getApplicationContext()).assemblyDao();
         ordersDao = AppDatabase.getAppDatabase(getApplicationContext()).orderDao();
+        orderAssembliesDao = AppDatabase.getAppDatabase(getApplicationContext()).orderAssembliesDao();
 
         // VIEW COMPONENTS INIT
         customerSpinner = findViewById(R.id.sprOrderAddCustomer);
@@ -100,29 +106,23 @@ public class OrdersAddActivity extends AppCompatActivity {
                 System.out.println(assemblies);
 
                 ////// ADD ORDER TO DATABASE, SAVE DATE AND STATUS TO PENDIENTE
+                long id = saveOrder(); // gets data and saves order
 
-                // Get customer id
-                Customer selectedCustomer = (Customer) customerSpinner.getSelectedItem();
-                // Get current date
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date d = new Date();
-
-                // Vars to save
-                int customerId = selectedCustomer.getId();
-                int statusId = 0; ///// 0 = Pendiente
-                String date = dateFormat.format(d);
-
-                Order newOrder = new Order();
-                newOrder.setCustomerId(customerId);
-                newOrder.setStatusId(statusId);
-                newOrder.setDate(date);
-
-                // Add order to DB, TODO: add also assamblies
-                ordersDao.insertAll(newOrder);
-
+                List <OrderAssemblies> assembliesToSave = new ArrayList<OrderAssemblies>();
                 for (AssemblyExtended assembly : assemblies) {
+                    int assemblyId = assembly.getId();
+                    int qty = assembly.getQty();
+                    if(qty==0)
+                        continue;
 
+                    OrderAssemblies newOrderAssembly = new OrderAssemblies();
+                    newOrderAssembly.setQty(qty);
+                    newOrderAssembly.setId((int)id);
+                    newOrderAssembly.setAssemblyId(assemblyId);
+                    assembliesToSave.add(newOrderAssembly);
                 }
+                OrderAssemblies[] arr = assembliesToSave.toArray(new OrderAssemblies[0]);
+                orderAssembliesDao.insertAll(arr);
             }
         });
 
@@ -136,6 +136,35 @@ public class OrdersAddActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private long saveOrder() {
+        // Get customer id
+        Customer selectedCustomer = (Customer) customerSpinner.getSelectedItem();
+        // Get current date
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = new Date();
+
+        // Vars to save
+        int customerId = selectedCustomer.getId();
+        int statusId = 0; ///// 0 = Pendiente
+        String date = dateFormat.format(d);
+
+        Order newOrder = new Order();
+        newOrder.setCustomerId(customerId);
+        newOrder.setStatusId(statusId);
+        newOrder.setDate(date);
+
+        // Add order to DB, TODO: add also assamblies
+        long[] ids  = ordersDao.insertAll(newOrder);
+
+        // get the id of the saved order
+        long id = -1;
+
+        if(ids.length>0) // validate
+            id = ids[0];
+
+        return id;
     }
 
 

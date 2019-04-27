@@ -36,7 +36,7 @@ public interface OrderDao {
     List<Order> findByQuery(SimpleSQLiteQuery query);
 
     @Insert
-    void insertAll(Order order);
+    long[] insertAll(Order... order);
 
     @Update
     void update(Order... orders);
