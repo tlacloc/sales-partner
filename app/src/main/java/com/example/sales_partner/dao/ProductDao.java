@@ -8,6 +8,7 @@ import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.NeededProducts;
 import com.example.sales_partner.model.Product;
+import com.example.sales_partner.model.SalesData;
 
 import java.util.List;
 
@@ -42,9 +43,9 @@ public interface ProductDao {
             "INNER JOIN order_assemblies ON order_assemblies.id = orders.id\n" +
             "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
             "INNER JOIN products ON products.id = product_id\n" +
-            "WHERE status_id=0\n" +
+            "WHERE status_id=0 " +
             "GROUP BY products.id \n" +
-            "HAVING SUM(products.qty - order_assemblies.qty*assembly_products.qty) < 0")
+            "HAVING diffProductsQty < 0")
     List<NeededProducts> findNeededProducts();
 
     /*@Query("SELECT \n" +
@@ -56,7 +57,7 @@ public interface ProductDao {
             "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
             "INNER JOIN products ON products.id = product_id\n" +
             "group by strftime(\"%m-%Y\", date);")
-    List<NeededProducts> getIncomeByMonth();*/
+    List<SalesData> getIncomeByMonth();
 
 
 

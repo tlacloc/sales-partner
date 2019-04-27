@@ -22,13 +22,9 @@ import android.widget.Toast;
 import com.example.sales_partner.dao.CustomerDao;
 import com.example.sales_partner.dao.OrderDao;
 import com.example.sales_partner.db.AppDatabase;
-import com.example.sales_partner.model.Category;
 import com.example.sales_partner.model.Customer;
-import com.example.sales_partner.model.Product;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ClientsActivity extends AppCompatActivity {
@@ -102,7 +98,7 @@ public class ClientsActivity extends AppCompatActivity {
             listVOs.add(stateVO);
         }
 
-        SpinnerCheckboxAdapter myAdapter = new SpinnerCheckboxAdapter(getApplicationContext(), 0,
+        SalesCardListAdapter myAdapter = new SalesCardListAdapter(getApplicationContext(), 0,
                 listVOs);
         spinner.setAdapter(myAdapter);
 

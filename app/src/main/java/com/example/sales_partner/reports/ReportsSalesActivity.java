@@ -13,6 +13,6 @@ public class ReportsSalesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reports_sales);
+        setContentView(R.layout.sales_card);
     }
 }
