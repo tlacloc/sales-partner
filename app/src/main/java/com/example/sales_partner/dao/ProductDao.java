@@ -49,6 +49,7 @@ public interface ProductDao {
     List<NeededProducts> findNeededProducts();
 
     @Query("SELECT \n" +
+            "assembly_products.id as assemblyId ,\n" +
             "strftime(\"%m-%Y\", date) as monthYear,\n" +
             "COUNT(products.price) as sales,\n" +
             "SUM(products.price) as income\n" +
@@ -58,6 +59,21 @@ public interface ProductDao {
             "INNER JOIN products ON products.id = product_id\n" +
             "group by strftime(\"%m-%Y\", date);")
     List<SalesData> getIncomeByMonth();
+
+    @Query("SELECT \n" +
+            "assemblies.description as assemblyDescription, \n" +
+            "order_assemblies.id as assemblyId,\n" +
+            "strftime(\"%m-%Y\", date) as monthYear,\n" +
+            "COUNT(products.price) as sales,\n" +
+            "SUM(products.price) as income\n" +
+            "FROM orders\n" +
+            "INNER JOIN order_assemblies ON order_assemblies.id = orders.id\n" +
+            "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
+            "INNER JOIN assemblies ON assemblies.id = order_assemblies.assembly_id\n" +
+            "INNER JOIN products ON products.id = product_id\n" +
+            "WHERE monthYear = :monthYear \n" +
+            "group by assembly_id")
+    List<SalesData> getIncome(String monthYear);
 
 
 

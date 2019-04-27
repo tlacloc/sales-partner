@@ -5,6 +5,10 @@ public class SalesData {
     public int sales;
     public int income;
 
+
+    public String assemblyDescription;
+    public int assemblyId;
+
     public String toString() {
         return monthYear + " \n" +
             "ventas: " + sales + "\n" +

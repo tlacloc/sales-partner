@@ -1,10 +1,18 @@
 package com.example.sales_partner;
 
+import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.sales_partner.dao.ProductDao;
+import com.example.sales_partner.db.AppDatabase;
+import com.example.sales_partner.model.SalesData;
+
+import java.util.List;
 
 public class SalesViewHolder extends RecyclerView.ViewHolder {
     protected TextView month;
@@ -20,7 +28,22 @@ public class SalesViewHolder extends RecyclerView.ViewHolder {
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),"test",Toast.LENGTH_SHORT);
+                String m = month.getText().toString();
+                ProductDao productsDao = AppDatabase.getAppDatabase(v.getContext()).productDao();
+
+                List<SalesData> income = productsDao.getIncome(m);
+
+                String s = "";
+                for (SalesData salesData : income) {
+                    s += "Ensamble: " + salesData.assemblyDescription + "\n" +
+                        "Ventas: " + salesData.sales + "\n" +
+                        "Ingreso: " + salesData.income + "\n\n";
+                }
+
+                AlertDialog alertDialog = new AlertDialog.Builder(v.getContext())
+                    .setTitle("Resumen")
+                    .setMessage(s)
+                    .show();
             }
         });
     }
