@@ -46,9 +46,9 @@ public interface OrderCustomerDao {
             "FROM orders \n" +
             "INNER JOIN customers ON customers.id = orders.customer_id\n" +
             "INNER JOIN order_status ON order_status.id = orders.status_id\n" +
-            "INNER JOIN order_assemblies ON order_assemblies.id = orders.id\n" +
-            "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
-            "INNER JOIN products ON products.id = assembly_products.product_id\n" +
+            "LEFT OUTER JOIN order_assemblies ON order_assemblies.id = orders.id\n" +
+            "LEFT OUTER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
+            "LEFT OUTER JOIN products ON products.id = assembly_products.product_id\n" +
             "GROUP BY orders.id, order_assemblies.assembly_id, products.id\n" +
             ")\n" +
             "GROUP BY id")

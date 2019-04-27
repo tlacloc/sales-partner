@@ -253,7 +253,8 @@ public class OrdersActivity extends AppCompatActivity {
                 return true;
 
             case R.id.add_menu_item:
-
+                Intent intent = new Intent(getApplicationContext(),OrdersAddActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

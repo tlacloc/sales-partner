@@ -7,9 +7,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 public class AssemblyExtended extends Assembly{
-
     private int numProducts;
     private int price;
+    private Integer qty;
 
     public int getNumProducts() {
         return numProducts;
@@ -27,6 +27,12 @@ public class AssemblyExtended extends Assembly{
         this.price = price;
     }
 
+    public int getQty() {
+        if(this.qty == null) return 0;
+        return qty;
+    }
+
+    public void setQty(int qty) { this.qty = qty; }
 
     public String toString() {
         int descriptionLength =  20;

@@ -19,6 +19,7 @@
         <activity android:name=".ReportsActivity" />
         <activity android:name=".OrdersActivity" />
         <activity android:name=".OrdersDetailActivity" />
+        <activity android:name=".OrdersAddActivity" />
         <activity android:name=".AssembliesActivity" />
         <activity android:name=".ClientsActivity" />
         <activity android:name=".ClientsAddActivity" />
