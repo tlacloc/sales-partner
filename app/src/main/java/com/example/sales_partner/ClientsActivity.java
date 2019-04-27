@@ -98,8 +98,7 @@ public class ClientsActivity extends AppCompatActivity {
             listVOs.add(stateVO);
         }
 
-        SalesCardListAdapter myAdapter = new SalesCardListAdapter(getApplicationContext(), 0,
-                listVOs);
+        SpinnerCheckboxAdapter myAdapter= new SpinnerCheckboxAdapter(getApplicationContext(), 0, listVOs);
         spinner.setAdapter(myAdapter);
 
         List<Customer> c = customerDao.getAll();

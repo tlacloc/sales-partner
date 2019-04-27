@@ -37,7 +37,9 @@ public class SalesCardListAdapter extends RecyclerView.Adapter<SalesViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull SalesViewHolder salesViewHolder, int i) {
         SalesData ci = salesDataList.get(i);
-        //salesViewHolder.income.setText(ci.);
+        salesViewHolder.month.setText(ci.monthYear);
+        salesViewHolder.income.setText("" + ci.income);
+        salesViewHolder.sales.setText("" + ci.sales);
         //salesViewHolder.month.setText(ci.surname);
     }
 

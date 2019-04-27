@@ -48,7 +48,7 @@ public interface ProductDao {
             "HAVING diffProductsQty < 0")
     List<NeededProducts> findNeededProducts();
 
-    /*@Query("SELECT \n" +
+    @Query("SELECT \n" +
             "strftime(\"%m-%Y\", date) as monthYear,\n" +
             "COUNT(products.price) as sales,\n" +
             "SUM(products.price) as income\n" +
