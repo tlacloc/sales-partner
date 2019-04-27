@@ -42,12 +42,12 @@ public interface ProductDao {
             "INNER JOIN order_assemblies ON order_assemblies.id = orders.id\n" +
             "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
             "INNER JOIN products ON products.id = product_id\n" +
-            "WHERE status_id=0" +
+            "WHERE status_id=0\n" +
             "GROUP BY products.id \n" +
-            "HAVING diffProductsQty < 0")
+            "HAVING SUM(products.qty - order_assemblies.qty*assembly_products.qty) < 0")
     List<NeededProducts> findNeededProducts();
 
-    @Query("SELECT \n" +
+    /*@Query("SELECT \n" +
             "strftime(\"%m-%Y\", date) as monthYear,\n" +
             "COUNT(products.price) as sales,\n" +
             "SUM(products.price) as income\n" +
@@ -56,7 +56,7 @@ public interface ProductDao {
             "INNER JOIN assembly_products ON assembly_products.id = order_assemblies.assembly_id\n" +
             "INNER JOIN products ON products.id = product_id\n" +
             "group by strftime(\"%m-%Y\", date);")
-    List<NeededProducts> getIncomeByMonth();
+    List<NeededProducts> getIncomeByMonth();*/
 
 
 

@@ -75,6 +75,7 @@ public class ClientsActivity extends AppCompatActivity {
                 Intent IntCustomers = new Intent(getApplicationContext(),ClientsAddActivity.class);
                 IntCustomers.putExtra("customer",selectedCustomer);
                 startActivity(IntCustomers);
+                finish();
             }
         });
 
@@ -145,6 +146,7 @@ public class ClientsActivity extends AppCompatActivity {
                 Intent IntCustomers = new Intent(getApplicationContext(),ClientsAddActivity.class);
                 IntCustomers.putExtra("tag","start");
                 startActivity(IntCustomers);
+                finish();
 
                 return true;
 
@@ -208,6 +210,7 @@ public class ClientsActivity extends AppCompatActivity {
                 Intent IntCustomers = new Intent(getApplicationContext(),ClientsAddActivity.class);
                 IntCustomers.putExtra("customer",selectedCustomer);
                 startActivity(IntCustomers);
+                finish();
 
                 Toast.makeText(ClientsActivity.this, "Editar cliente", Toast.LENGTH_SHORT).show();
                 return true;

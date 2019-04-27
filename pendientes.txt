@@ -117,19 +117,19 @@ PANTALLAS AUXILIARES
 		es información de contacto obligatoria.
 	
 		Incluye un CheckBox para habilitar la entrada del teléfono 2. Si este CheckBox está seleccionado se
-		obligará y validará la entrada del teléfono 2.
+		obligará y validará la entrada del teléfono 2. [DONE]
 	
-		Incluye un EditText para agregar el teléfono 2. Debe existir una validación del texto.
+		Incluye un EditText para agregar el teléfono 2. Debe existir una validación del texto. 
 	
 		Incluye un CheckBox para habilitar la entrada del teléfono 3. Si este CheckBox está seleccionado se
-		obligará y validará la entrada del teléfono 3.
+		obligará y validará la entrada del teléfono 3. [DONE]
 	
 		Incluye un EditText para agregar el teléfono 3. Debe existir una validación del texto.
 	
 		Incluye un CheckBox para habilitar la entrada del e-mail. Si este CheckBox está seleccionado se obli-
-		gará y validará la entrada del e-mail.
+		gará y validará la entrada del e-mail. [DONE]
 	
-		Incluye un EditText para agregar el e-mail. Debe existir una validación del texto.
+		Incluye un EditText para agregar el e-mail. Debe existir una validación del texto. 
 	
 		Incluye un ActionItem para Guardar. Se mostrará un mensaje que indique el éxito de la operación. Si
 		se intenta regresar por medio del botón back sin haber guardado, se solicitará una confirmación y se
@@ -177,7 +177,7 @@ ORDENES: CREATE ACTIVITY [DONE]
 	PANTALLA AUXILIAR 
 	
 		AGREGAR NUEVA ORDEN
-		
+
 	Incluye un ActionItem “+” para agregar un nuevo ensamble en una pantalla auxiliar (3).
 	
 	Incluye un Spinner para seleccionar al cliente.
