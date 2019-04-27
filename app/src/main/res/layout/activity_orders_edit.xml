@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarClients"
@@ -19,41 +18,49 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme" />
-
-        <!-- Espacio para los datos del cliente -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+            <!-- Espacio para los datos del cliente -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cliente: " />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cliente: " />
 
-            <TextView
-                android:id="@+id/txtEditCliente"
+                <TextView
+                    android:id="@+id/txtEditCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/ensambles"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ListView>
+<!--
+            <Button
+                android:id="@+id/btnCustomerSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                 />
+                android:text="Guardar" />
+-->
+        </LinearLayout>
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/ensambles"
-            android:scrollbars="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </ListView>
-
-        <Button
-            android:id="@+id/btnCustomerSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guardar" />
-
-    </LinearLayout>
 
 </LinearLayout>
