@@ -7,8 +7,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.sales_partner.R;
+import com.example.sales_partner.dao.ProductDao;
+import com.example.sales_partner.db.AppDatabase;
+import com.example.sales_partner.model.NeededProducts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReportsProductsActivity extends AppCompatActivity {
@@ -20,7 +24,7 @@ public class ReportsProductsActivity extends AppCompatActivity {
     ListView productsList;
 
     //Lista de productis
-    private List<> products;
+    private List<NeededProducts> products;
     //ADAPTERS
     private ArrayAdapter productsAdapter;
 
@@ -30,11 +34,14 @@ public class ReportsProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reports_products);
         Log.d(TAG, "onCreate: ");
 
+        ProductDao productsDao = AppDatabase.getAppDatabase(getApplicationContext()).productDao();
+
         //INIT VIEW COMPONENTS
         productsList = findViewById(R.id.listReportsProducts);
 
         //populate products
         products = new ArrayList<>();
+        products = productsDao.findNeededProducts();
 
         //sending products to the adapter
         productsAdapter = new ArrayAdapter(this, R.layout.text_list, products);
