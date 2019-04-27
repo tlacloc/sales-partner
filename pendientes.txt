@@ -38,7 +38,7 @@ PRODUCTOS: CREATE ACTIVITY [DONE]
 
 		>esta lista deberá estar ordenada alfabéticamente por descripción. [DONE]
 
-		>Al hacer click sobre un producto se mostrará su información a detalle (categoría, descripción, precio,
+		>Al hacer click sobre un producto se mostrará su información a detalle (categoría, descripción, precio, [DONE]
 		cantidad en stock) en una pantalla auxiliar o diálogo. [DONE]
 
 El modo landscape de esta pantalla es de diseño libre.
@@ -53,14 +53,14 @@ ENSAMBLES: CREATE ACTIVITY [DONE]
 	
 		>La lista de ensambles sólo será actualizada al presionar este botón. [DONE]
 	
-	Incluye una lista de ensambles tipo RecyclerView  [DONE but ListView]
+	Incluye una lista de ensambles tipo RecyclerView  [DONE]
 	
-		>mostrando su información básica (descripción truncada, número de productos, costo total del ensamble) [DONE but just description]
+		>mostrando su información básica (descripción truncada, número de productos, costo total del ensamble) [DONE]
 	
 		>esta lista deberá estar ordenada alfabéticamente por descripción. [DONE]
 	
 		>Al hacer click sobre un ensamble se mostrará su información a detalle (descripción, lista de productos 
-		RecyclerView con cantidades requeridas, costo total del ensamble) en una pantalla auxiliar. 
+		RecyclerView con cantidades requeridas, costo total del ensamble) en una pantalla auxiliar. [DONE]
 	
 		> Al hacer click sobre un producto se mostrará su información a detalle (categoría, descripción, precio,
 		cantidad en stock) en una pantalla auxiliar o diálogo.
@@ -69,7 +69,7 @@ ENSAMBLES: CREATE ACTIVITY [DONE]
 }	
 CLIENTES: CREATE ACTIVITY [DONE]
 {	
-	Incluye un ActionItem “+” para agregar un nuevo cliente en una pantalla auxiliar (1).
+	Incluye un ActionItem “+” para agregar un nuevo cliente en una pantalla auxiliar (1). [DONE]
 	
 	Incluye un Spinner tipo Checkbox para especificar un filtrado por nombre, apellido, dirección, telé-
 	fono o e-mail de los clientes. [DONE]
@@ -80,25 +80,26 @@ CLIENTES: CREATE ACTIVITY [DONE]
 	Incluye un ActionItem en el ToolBar con la imagen de una lupa para realizar la búsqueda. 
 		>La lista de clientes sólo será actualizada al presionar este botón. [DONE]
 	
-	Incluye una lista de clientes tipo RecyclerView  [DONE but ListView]
+	Incluye una lista de clientes tipo RecyclerView  [DONE]
 		
 		>mostrando su información básica (apellido, nombre, un teléfono y el e-mail, éstos últimos si 
-		los especifica); [DONE but just name]
+		los especifica); [DONE]
 	
 		>esta lista deberá estar ordenada alfabéticamente por apellido, nombre. [DONE] 
 	
-		>Al hacer long click sobre un cliente se mostrará un menú contextual con las opciones: 
+		>Al hacer long click sobre un cliente se mostrará un menú contextual con las opciones: [DONE]
 			detalles, 
 			editar 
 			y eliminar.
 	
-	▪ Detalles. Se mostrará un diálogo auxiliar con la información completa del cliente.
+	▪ Detalles. Se mostrará un diálogo auxiliar con la información completa del cliente. [DONE]
 	
-	▪ Editar. Pantalla auxiliar (2).
+	▪ Editar. Pantalla auxiliar (2). [DONE]
 	
 	▪ Eliminar. Se mostrará un diálogo de confirmación y un mensaje que indique el éxito de la
-	operación. Esta opción no aparecerá si el cliente ya se encuentra asignado a una orden.
-	El modo landscape de esta pantalla es de diseño libre.
+	operación. Esta opción no aparecerá si el cliente ya se encuentra asignado a una orden.[DONE
+
+	El modo landscape de esta pantalla es de diseño libre. 
 
 	
 PANTALLAS AUXILIARES
@@ -136,30 +137,30 @@ PANTALLAS AUXILIARES
 }	
 ORDENES: CREATE ACTIVITY [DONE]
 {
-	Incluye un ActionItem “+” para agregar una nueva orden en una pantalla auxiliar (1).
+	Incluye un ActionItem “+” para agregar una nueva orden en una pantalla auxiliar (1). 
 	
-	Incluye un Spinner tipo Checkbox para especificar un filtrado por estado de las órdenes.
+	Incluye un Spinner tipo Checkbox para especificar un filtrado por estado de las órdenes. [DONE]
 	
-	Incluye un Spinner para especificar un filtrado por cliente, debe incluir la opción Todos.
+	Incluye un Spinner para especificar un filtrado por cliente, debe incluir la opción Todos. [DONE]
 	
-	Incluye una pareja Checkbox/DatePicker para habilitar/seleccionar una fecha inicial de filtrado.
+	Incluye una pareja Checkbox/DatePicker para habilitar/seleccionar una fecha inicial de filtrado. [DONE]
 	
-	Incluye una pareja Checkbox/DatePicker para habilitar/seleccionar una fecha final de filtrado.
+	Incluye una pareja Checkbox/DatePicker para habilitar/seleccionar una fecha final de filtrado. [DONE]
 	
 	Incluye un ActionItem en el ToolBar con la imagen de una lupa para realizar la búsqueda. La lista de
-	órdenes sólo será actualizada al presionar este botón.
+	órdenes sólo será actualizada al presionar este botón. [DONE]
 	
 	Incluye una lista de órdenes tipo RecyclerView 
-		>mostrando su información básica (cliente, estado, fecha, cantidad de ensambles, costo total);
-		>esta lista deberá estar ordenada por fecha de manera descendente. 
-		>Al hacer un long click sobre una orden se mostrará un menú contextual con las opciones: 
-			detalles, 
-			regresar/avanzar estado a 
+		>mostrando su información básica (cliente, estado, fecha, cantidad de ensambles, costo total); [DONE]
+		>esta lista deberá estar ordenada por fecha de manera descendente. [DONE]
+		>Al hacer un long click sobre una orden se mostrará un menú contextual con las opciones: [DONE]
+			detalles, [DONE]
+			regresar/avanzar estado a  [DONE]
 			y editar orden.
 	
 	▪ Detalles. Se mostrará una pantalla auxiliar con la información completa de la orden, inclu-
 	yendo cuáles ensambles se solicitaron así como sus cantidades y costos; también se mostra-
-	rá el registro completo de cambios.
+	rá el registro completo de cambios. [DONE]
 	
 	▪ Regresar estado a ... Cuando se pueda regresar el estado de una orden a un valor anterior se
 	mostrará esta opción. Mediante un diálogo auxiliar se solicitarán comentarios acerca del
@@ -167,7 +168,7 @@ ORDENES: CREATE ACTIVITY [DONE]
 	
 	▪ Avanzar estado a ... Cuando se pueda avanzar el estado de una orden a un valor siguiente se
 	mostrará esta opción. Mediante un diálogo auxiliar se solicitarán comentarios acerca del
-	cambio y se documentará en la base de datos.
+	cambio y se documentará en la base de datos. [DONE]
 	
 	▪ Editar orden. Pantalla auxiliar (2). Esta opción sólo se mostrará para órdenes editables.
 	En modo portrait el orden vertical de los controles es el especificado. En modo landscape deberá
@@ -176,6 +177,7 @@ ORDENES: CREATE ACTIVITY [DONE]
 	PANTALLA AUXILIAR 
 	
 		AGREGAR NUEVA ORDEN
+		
 	Incluye un ActionItem “+” para agregar un nuevo ensamble en una pantalla auxiliar (3).
 	
 	Incluye un Spinner para seleccionar al cliente.

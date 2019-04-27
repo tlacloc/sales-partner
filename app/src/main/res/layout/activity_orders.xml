@@ -87,6 +87,7 @@
             android:id="@+id/btnOrdersStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="ver en calendario"
             android:layout_weight="1"
             android:onClick="showStartDatePickerDialog" />
 
@@ -129,6 +130,7 @@
             android:id="@+id/btnOrdersEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Ver en calendario"
             android:layout_weight="1"
             android:onClick="showDatePickerDialog" />
 
