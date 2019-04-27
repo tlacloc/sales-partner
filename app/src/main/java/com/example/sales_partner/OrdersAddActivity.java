@@ -1,6 +1,7 @@
 package com.example.sales_partner;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.dao.CustomerDao;
@@ -91,30 +93,32 @@ public class OrdersAddActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(v);
-                System.out.println(adapter);
-                System.out.println(assemblies);
+                new AlertDialog.Builder(OrdersAddActivity.this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Confirmacion")
+                        .setCancelable(false)
+                        .setMessage("Revisa tu pedido, esta acción no podrá deshacerse")
+                        .setPositiveButton("Agregar Orden", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ////// ADD ORDER TO DATABASE, SAVE DATE AND STATUS TO PENDIENTE
+                                try {
+                                    saveAll();
+                                    Toast.makeText(OrdersAddActivity.this,"Orden Guardada", Toast.LENGTH_LONG).show();
+                                } catch (Exception e){
+                                    Toast.makeText(OrdersAddActivity.this,"Error al guardar", Toast.LENGTH_LONG).show();
+                                };
 
-                ////// ADD ORDER TO DATABASE, SAVE DATE AND STATUS TO PENDIENTE
+                                Intent intent = new Intent(getApplicationContext(),OrdersActivity.class);
+                                intent.putExtra("tag","start");
+                                startActivity(intent);
+                                finish();
 
-                AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
-                db.beginTransaction();
-                try{
-                    //do multiple database operations here
-                    long id = saveOrder(); // gets data and saves order
-                    long[] ids = saveOrderAssemblies((int) id);
+                            }
+                        })
+                        .setNegativeButton("Regresar", null)
+                        .show();
 
-                    //which throws exceptions on error
-                    db.setTransactionSuccessful();
-                    //do not any more database operations between
-                    //setTransactionSuccessful and endTransaction
-                }catch(Exception e){
-                    //end the transaction on error too when doing exception handling
-                    db.endTransaction();
-                    throw e;
-                }
-                //end the transaction on no error
-                db.endTransaction();
             }
         });
 
@@ -128,6 +132,27 @@ public class OrdersAddActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void saveAll() {
+        AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
+        db.beginTransaction();
+        try{
+            //do multiple database operations here
+            long id = saveOrder(); // gets data and saves order
+            long[] ids = saveOrderAssemblies((int) id);
+
+            //which throws exceptions on error
+            db.setTransactionSuccessful();
+            //do not any more database operations between
+            //setTransactionSuccessful and endTransaction
+        }catch(Exception e){
+            //end the transaction on error too when doing exception handling
+            db.endTransaction();
+            throw e;
+        }
+        //end the transaction on no error
+        db.endTransaction();
     }
 
     private long[] saveOrderAssemblies(int id) {
