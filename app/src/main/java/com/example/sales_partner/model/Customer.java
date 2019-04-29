@@ -7,6 +7,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity(tableName="customers")
 public class Customer extends BaseObservable implements Serializable {
@@ -100,8 +101,32 @@ public class Customer extends BaseObservable implements Serializable {
         this.email = email;
     }
 
+    public Customer(int id, String firstName, String lastName){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public String toString(){
         return this.lastName + " " + this.firstName + " " +
                 this.getPhone1() + " " + this.getEmail();
+    }
+
+    // IMPLEMENT EQUALS
+
+    @Override
+    public int hashCode() {
+        String s = id+firstName+lastName;
+        return Objects.hash(s);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id == customer.id &&
+                firstName.equals(customer.firstName) &&
+                lastName.equals(customer.lastName) ;
     }
 }

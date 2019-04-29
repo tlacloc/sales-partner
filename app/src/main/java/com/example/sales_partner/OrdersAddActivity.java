@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sales_partner.dao.AssemblyDao;
@@ -21,6 +22,7 @@ import com.example.sales_partner.model.AssemblyExtended;
 import com.example.sales_partner.model.Customer;
 import com.example.sales_partner.model.Order;
 import com.example.sales_partner.model.OrderAssemblies;
+import com.example.sales_partner.model.OrderCustomer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +42,9 @@ public class OrdersAddActivity extends AppCompatActivity {
     private List<Customer> customers;
     private List<AssemblyExtended> assemblies;
     private ViewModel model;
+
+    // Filled if sent order to edit
+    private OrderCustomer orderEdit = null;
 
     class ViewModel{
         public List<Customer> customers;
@@ -67,6 +72,12 @@ public class OrdersAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders_add);
         //ActivityOrdersAddBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_orders_add);
+
+        // IF WE GET ORDER WE ARE EDITING
+        Object o = getIntent().getSerializableExtra("order");
+        if(o != null) orderEdit = (OrderCustomer)o;
+
+
 
         // Get User Dao
         customerDao = AppDatabase.getAppDatabase(getApplicationContext()).customerDao();
@@ -126,6 +137,25 @@ public class OrdersAddActivity extends AppCompatActivity {
         customerSpinner.setAdapter(customersAdapter);
         assemblyListView.setAdapter(adapter);
 
+        if(orderEdit != null){
+            int customerId = orderEdit.customerId;
+            Customer selectedCustomer = customerDao.findById(customerId);
+
+            ////// UNCOMMENT IF USE SAME SPINNER BUT DISABLED
+            /*
+            int position = customersAdapter.getPosition(selectedCustomer);
+            customerSpinner.setSelection(position);
+            customerSpinner.setEnabled(false);
+            */
+
+            // show text edit
+            TextView textViewCustomer = findViewById(R.id.txtOrderAddCustomer);
+            textViewCustomer.setVisibility(View.VISIBLE);
+            textViewCustomer.setText(selectedCustomer.toString());
+            // hide Spinner
+            customerSpinner.setVisibility(View.GONE);
+        }
+
 
         saved = false;
 
@@ -138,9 +168,18 @@ public class OrdersAddActivity extends AppCompatActivity {
         AppDatabase db = AppDatabase.getAppDatabase(getApplicationContext());
         db.beginTransaction();
         try{
+            long orderId = 0;
             //do multiple database operations here
-            long id = saveOrder(); // gets data and saves order
-            long[] ids = saveOrderAssemblies((int) id);
+            if(orderEdit==null){
+                // we are adding a new order
+                orderId = saveOrder(); // gets data and saves order
+            }else{
+                // we are editting an order
+                orderId = orderEdit.id;
+                orderAssembliesDao.deleteByOrderId((int) orderId);
+            }
+
+            long[] ids = saveOrderAssemblies((int) orderId);
 
             //which throws exceptions on error
             db.setTransactionSuccessful();
@@ -178,14 +217,15 @@ public class OrdersAddActivity extends AppCompatActivity {
     }
 
     private long saveOrder() {
-        // Get customer id
         Customer selectedCustomer = (Customer) customerSpinner.getSelectedItem();
         // Get current date
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date d = new Date();
 
         // Vars to save
+        // Get customer id
         int customerId = selectedCustomer.getId();
+
         int statusId = 0; ///// 0 = Pendiente
         String date = dateFormat.format(d);
 

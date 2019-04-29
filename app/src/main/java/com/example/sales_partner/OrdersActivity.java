@@ -335,7 +335,9 @@ public class OrdersActivity extends AppCompatActivity {
                 Toast.makeText(OrdersActivity.this, "Detalles de orden", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_oredit:
-                Toast.makeText(OrdersActivity.this, "Editar orden", Toast.LENGTH_SHORT).show();
+                Intent IntCustomers = new Intent(getApplicationContext(),OrdersAddActivity.class);
+                IntCustomers.putExtra("order",selectedOrder);
+                startActivity(IntCustomers);
                 return true;
             case R.id.action_oravan:
                 ///// AVANZAR STATUS ORDEN

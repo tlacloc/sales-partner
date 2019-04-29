@@ -32,4 +32,7 @@ public interface OrderAssembliesDao {
 
     @Delete
     void delete(OrderAssemblies... assembly);
+
+    @Query("DELETE FROM order_assemblies WHERE id=:orderId")
+    void deleteByOrderId(int orderId);
 }

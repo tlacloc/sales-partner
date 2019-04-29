@@ -18,6 +18,9 @@ public interface CustomerDao {
     @Query("SELECT * FROM customers ORDER BY last_name ASC, first_name ASC")
     List<Customer> getAll();
 
+    @Query("SELECT * FROM customers WHERE  id = :customerId ORDER BY last_name ASC, first_name ASC")
+    Customer findById(int customerId);
+
     @RawQuery
     List<Customer> findByQuery(SimpleSQLiteQuery query);
 
