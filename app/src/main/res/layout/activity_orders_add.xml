@@ -8,13 +8,10 @@
             name="phone2Checked"
             type="boolean"/>
     </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
-
+        android:orientation="vertical">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarClients"
             android:layout_width="match_parent"
@@ -24,22 +21,38 @@
             android:theme="?attr/actionBarTheme" />
 
         <!-- Espacio para los datos de nombre -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cliente:"
+            android:textColor="@color/niceDark"
+            android:textSize="20sp"/>
         <Spinner
             android:id="@+id/sprOrderAddCustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></Spinner>
 
-        <ListView
-            android:id="@+id/lvOrderAddAssemblies"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="500dp"></ListView>
-        <Button
-            android:id="@+id/btnAddOrder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guardar"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
+
+            <ListView
+                android:id="@+id/lvOrderAddAssemblies"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"></ListView>
+            <Button
+                android:id="@+id/btnAddOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar"/>
+
+        </LinearLayout>
     </LinearLayout>
+
+
 
 
 </layout>

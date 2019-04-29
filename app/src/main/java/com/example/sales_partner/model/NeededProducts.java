@@ -108,7 +108,8 @@ public class NeededProducts {
             desc = this.getProductDescription().substring(0,descriptionLength);
         else desc = this.getProductDescription();
 
-        return desc + " \n" +
+        return "Producto: " +  "\n" +
+                desc + " \n" +
                 "productos pedidos: " + this.getPendingProductsQty() + "\n" +
                 "productos stock: " + this.getStockProductsQty() + "\n" +
                 "faltan: " + this.getDiffProductsQty();
