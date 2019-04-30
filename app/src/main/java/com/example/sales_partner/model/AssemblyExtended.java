@@ -6,7 +6,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-public class AssemblyExtended extends Assembly{
+import java.io.Serializable;
+
+public class AssemblyExtended extends Assembly implements Serializable {
     private int numProducts;
     private int price;
     private Integer qty;
@@ -30,6 +32,17 @@ public class AssemblyExtended extends Assembly{
     public int getQty() {
         if(this.qty == null) return 0;
         return qty;
+    }
+
+    public OrderExtended toOrderExtended(int orderId, int qty){
+        OrderExtended oe = new OrderExtended();
+        oe.setAssembly(this.getDescription());
+        oe.setAssemblyId(this.getId());
+        oe.setAssemblyPrice(this.price);
+        oe.setId(orderId);
+        oe.setNumProducts(this.numProducts);
+        oe.setQty(qty);
+        return oe;
     }
 
     public void setQty(int qty) { this.qty = qty; }

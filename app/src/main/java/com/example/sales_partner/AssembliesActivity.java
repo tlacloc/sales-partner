@@ -1,6 +1,7 @@
 package com.example.sales_partner;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.ListView;
 import com.example.sales_partner.dao.AssemblyDao;
 import com.example.sales_partner.dao.AssemblyProductsDao;
 import com.example.sales_partner.db.AppDatabase;
+import com.example.sales_partner.model.Assembly;
 import com.example.sales_partner.model.AssemblyExtended;
 import com.example.sales_partner.model.Product;
 
@@ -41,10 +43,15 @@ public class AssembliesActivity extends AppCompatActivity {
     // Adapters
     private ArrayAdapter assembliesAdapter;
 
+    private Boolean addEdit = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assemblies);
+
+        addEdit = getIntent().getBooleanExtra("orderAddEdit",false);
+
         Log.d(TAG, "onCreate: ");
 
         //DB INIT
@@ -63,6 +70,9 @@ public class AssembliesActivity extends AppCompatActivity {
         ListView assembliesList = (ListView) findViewById(R.id.assembliesList);
         assembliesList.setAdapter(assembliesAdapter);
 
+        // REGISTRAR CONTEXT MENU
+        if(addEdit)
+            registerForContextMenu(assembliesList);
 
         assembliesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,15 +135,22 @@ public class AssembliesActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.products_menu_toolbar, menu);
-        getMenuInflater().inflate(R.menu.menu_contextual_ordenes, menu);
+        getMenuInflater().inflate(R.menu.menu_contextual_auxadden, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search_menu_item:
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        final AssemblyExtended selectedAssembly = (AssemblyExtended) assembliesAdapter.getItem(info.position);
 
+        switch (item.getItemId()) {
+
+            case R.id.action_auxadd:
+                Intent i = getIntent();
+                i.putExtra("assembly",selectedAssembly);
+                //OrdersAddActivity.assemblies.add(selectedAssembly.toOrderExtended(0,1));
+                setResult(RESULT_OK, i);
+                finish();
                 return true;
 
             default:

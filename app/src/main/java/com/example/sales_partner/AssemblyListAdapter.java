@@ -9,12 +9,13 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.sales_partner.model.AssemblyExtended;
+import com.example.sales_partner.model.OrderExtended;
 
 import java.util.List;
 
 public class AssemblyListAdapter extends ArrayAdapter {
     private Activity context;
-    private List <AssemblyExtended> orders;
+    private List <OrderExtended> orders;
 
     public AssemblyListAdapter(Activity context, int textViewResourceId, List objects){
         super(context, R.layout.txt_box_item, textViewResourceId, objects);
@@ -30,18 +31,18 @@ public class AssemblyListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
+        OrderExtended assembly = orders.get(position);
 
-        if (rowView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
             rowView=inflater.inflate(R.layout.txt_box_item, null,true);
 
             TextView assemblyText = (TextView) rowView.findViewById(R.id.tvAssemblyText);
             NumberPicker qtyNumberPicker = (NumberPicker) rowView.findViewById(R.id.npAssemblyQty);
-            qtyNumberPicker.setMinValue(0);
+            qtyNumberPicker.setMinValue(1);
             qtyNumberPicker.setMaxValue(7);
 
-            assemblyText.setText(orders.get(position).getDescription());
-            qtyNumberPicker.setValue(0);
+            assemblyText.setText(assembly.getAssembly());
+            qtyNumberPicker.setValue(assembly.getQty());
             qtyNumberPicker.setTag(position);
 
             qtyNumberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -49,12 +50,12 @@ public class AssemblyListAdapter extends ArrayAdapter {
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                     // update data model if value changed
                     int pos = (Integer) picker.getTag();
-                    AssemblyExtended selectedOrder = (AssemblyExtended) orders.get(pos);
+                    OrderExtended selectedOrder = (OrderExtended) orders.get(pos);
                     selectedOrder.setQty(newVal);
                 }
             });
 
-        }
+
 
         return rowView;
     }
