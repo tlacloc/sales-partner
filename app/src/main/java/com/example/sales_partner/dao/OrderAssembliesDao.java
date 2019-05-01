@@ -17,12 +17,17 @@ public interface OrderAssembliesDao {
     @Query("SELECT * FROM order_assemblies")
     List<Assembly> getAll();
 
-    @Query("SELECT order_assemblies.*,\n" +
-            "\tassemblies.description\n" +
-            "\tFROM order_assemblies\n" +
-            "\tINNER JOIN assemblies ON assemblies.id = order_assemblies.assembly_id\n" +
-            "\tWHERE order_assemblies.id = :orderId")
+    @Query("SELECT \n" +
+            "assembly_id as id,\n" +
+            "order_assemblies.qty as qty,\n" +
+            "assemblies.description\n" +
+            "FROM order_assemblies\n" +
+            "INNER JOIN assemblies ON assemblies.id = order_assemblies.assembly_id\n" +
+            "WHERE order_assemblies.id = :orderId")
     List<Assembly> findByOrderId(int orderId);
+
+    @Query("SELECT * FROM order_assemblies WHERE id = :orderId AND assembly_id = :assembleId")
+    OrderAssemblies findByOrderIdAndAssembleId(int orderId, int assembleId);
 
     @Insert
     long[] insertAll(OrderAssemblies... assembly);

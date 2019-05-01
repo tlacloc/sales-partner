@@ -7,6 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.example.sales_partner.model.Assembly;
+import com.example.sales_partner.model.AssemblyProducts;
 import com.example.sales_partner.model.Product;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public interface AssemblyProductsDao {
             "WHERE assembly_products.id = :assemblyId\n" +
             "ORDER BY description ASC")
     List<Product> findByAssemblyId(int assemblyId);
+
+    @Query("SELECT * FROM assembly_products WHERE product_id = :productID AND id = :assemblyId")
+    AssemblyProducts findByAssemblyIdAndProductId(int assemblyId, int productID);
 
     @Insert
     void insertAll(Assembly assembly);

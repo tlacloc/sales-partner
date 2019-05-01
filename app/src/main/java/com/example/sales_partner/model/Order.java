@@ -2,12 +2,15 @@ package com.example.sales_partner.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.example.sales_partner.dao.CustomerDao;
+import com.example.sales_partner.dao.OrderAssembliesDao;
 import com.example.sales_partner.db.AppDatabase;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity(tableName = "orders")
 public class Order {
@@ -72,8 +75,57 @@ public class Order {
     }
 
     public String toString(){
-        return this.date+ " S: " + this.statusId + " c: " + this.customerId;
+        String s = this.date+ "\nStatus: " + this.statusId + "\nCustomer: " + this.customerId;
+        if(assemblies!=null){
+            for (Assembly assembly : assemblies) {
+                s += "\n" + assembly.toString() + "\n";
+            }
+        }
+        return s;
     }
+
+    @Ignore
+    public List<Assembly> assemblies;
+
+    public List<Assembly> retrieveAssemblies(OrderAssembliesDao orderAssembliesDao){
+        assemblies = orderAssembliesDao.findByOrderId(this.id);
+        return assemblies;
+    }
+
+    public int canDo(List<Product> products, List<Product> productsToGetOut, int assemblyQty){
+        // Mr Meeseeks
+        for (Product pout : productsToGetOut) {
+            for (Product product : products) {
+                if(product.getId() == pout.getId()){
+                    // product found!
+                    // pout.assemblyQty: num prod necesarios por assembly
+                    // assemblyQty: num assamblies pedidos en la orden
+                    int dif = product.getQuantity() - pout.assemblyQty*assemblyQty;
+                    if(dif<0) {
+                        pout.notEnough = true;
+                        return Assembly.STATUS_OUT_OF_STOCK;
+                    }
+                }
+            }
+        }
+        return Assembly.STATUS_CAN_DO;
+    }
+
+    public int doIt(List<Product> products, List<Product> productsToGetOut, int assemblyQty){
+        for (Product pout : productsToGetOut) {
+            for (Product product : products) {
+                if(product.getId() == pout.getId()){
+                    // product found!
+                    product.getProductOut(pout.assemblyQty*assemblyQty);
+                    System.out.println(product.getQuantity()); //  Must be positive
+                    //int dif = product.getQuantity() - pout.assemblyQty;
+                    //if(dif<0) return Assembly.STATUS_OUT_OF_STOCK;
+                }
+            }
+        }
+        return Assembly.STATUS_CAN_DO;
+    }
+
 
 
 }

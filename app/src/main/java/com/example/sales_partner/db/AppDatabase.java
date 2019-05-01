@@ -225,7 +225,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (203, 2, 'LED Samsung LS24F350FHLXZX de 23.6\", Resolución 1920 x 1080 (Full HD), 4 ms, HDMI, VGA', 279900, 10)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (204, 2, 'LED Samsung S19F350HNL de 18.5\", Resolución 1366 x 768, 14 ms', 139899, 4)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (205, 2, 'LED HP 19KA, 18.5\", resolución 1366x768, VGA, Negro', 139899, 6)");
-                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (206, 2, 'LED HP V193 de 18.5\", resolución 1366 x 768, VGA, incluye teclado y mouse HP', 169901, 2)");
+                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (206, 2, 'LED HP V193 de 18.5\", resolución 1366 x 768, VGA, incluye teclado y mouse HP', 169901, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (207, 2, 'LED LG 22M38A-B de 21.5\", resolución 1920 x 1080 Full HD, VGA', 199900, 1)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (208, 2, 'LG 19M38A-B, 18.5\" LED, 1366 x 768 ,5ms, VGA, Negro', 149900, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (209, 2, 'LED LG 19M37A de 18.5\", Resolución 1366 x 768', 149900, 0)");
@@ -252,7 +252,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (309, 3, 'AMD (AD6300OKHLBOX) A4-6300, Radeon HD 8370D, Soc FM2.', 69500, 5)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (310, 3, 'AMD A6 6400K BE 4.1GHZ Socket FM2 Caja.', 103900, 10)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (311, 3, 'Intel Core i3-6100, 6ta Gen, 3.7 GHz, Intel HD Graphics 530, Socket 1151, L3 Caché 3 MB', 259900, 2)");
-                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (312, 3, 'Intel Pentium Dual Core G3240, 3.1 Ghz, 3M Cache', 112900, 0)");
+                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (312, 3, 'Intel Pentium Dual Core G3240, 3.1 Ghz, 3M Cache', 112900, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (313, 3, 'Intel Core i5 4590 3.3GHz, 6MB, 84w, Socket 1150 (BX80646I54590)', 418900, 1)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (314, 3, 'Intel BX80646I54460, Core I5-4460, 3.4 GHz, 6MB, 84W, 22nm, Socket 1150', 399900, 4)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (315, 3, 'Intel Core i3 4150 4ta Gen, 3.5 GHz, 3MB Caché, Socket 1150', 249900, 7)");
@@ -289,7 +289,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (505, 5, 'Gigabyte GV-N740D50C-2GI GT 740 2GB (DDR5), PCIe 3.0, VGA, 2DVI, HDMI', 229900, 2)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (506, 5, 'ASUS (R7250-1GD5) 1GB DDR5, 128Bit, PCIE 3.0.', 229900, 9)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (507, 5, 'AMD Gigabyte Radeon RX 460, 4GB GDDR5, HDMI, DVI, DP, PCI Express x16 3.0', 326900, 1)");
-                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (508, 5, 'Gigabyte NVIDIA GeForce GT 710, 2GB 64-bit DDR3, PCI Express 2.0 x8', 97500, 2)");
+                            db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (508, 5, 'Gigabyte NVIDIA GeForce GT 710, 2GB 64-bit DDR3, PCI Express 2.0 x8', 97500, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (509, 5, 'Gigabyte AMD Radeon R5 230, 1GB 64-bit DDR3, PCI Express 2.1', 77500, 3)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (510, 5, 'Gigabyte GV-R724OC-2GI AMD Radeon R7 240 OC, 2GB 128-bit DDR3, PCI Express 3.0', 152900, 0)");
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (511, 5, 'Sapphire R7250 1GB GDDR5 128Bit PCIE, VGA / DVI / HDMI (11215-00-20G)', 191900, 5)");

@@ -2,7 +2,10 @@ package com.example.sales_partner.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+
+import java.util.List;
 
 @Entity(tableName="products")
 public class Product {
@@ -61,4 +64,20 @@ public class Product {
         int descriptionLength =  20;
         return this.description.substring(0, descriptionLength) + " " + this.price + " q: " + this.quantity;
     }
+
+    @Ignore
+    public Boolean getProductOut(int qty){
+        if((getQuantity()-qty) >= 0) {
+            setQuantity(getQuantity() - qty);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Ignore
+    public int assemblyQty = 0;
+
+    @Ignore public boolean notEnough = false;
 }

@@ -33,6 +33,7 @@ public class ProductsActivity extends AppCompatActivity {
     private ProductDao productDao;
     private CategoryDao categoryDao;
 
+
     // VIEW COMPONENTS
     private Spinner spinner;
     private EditText searchEditText;
