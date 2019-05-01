@@ -38,7 +38,7 @@ public class ReportsSimActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: byCustomer");
                 Intent intentCustomer = new Intent(getApplicationContext(),SimCustomerActivity.class);
-                intentCustomer.putExtra("tag","start");
+                intentCustomer.putExtra("tag","BY_CUSTOMER");
                 startActivity(intentCustomer);
 
             }
@@ -48,8 +48,8 @@ public class ReportsSimActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: byDate");
-                Intent intentDate = new Intent(getApplicationContext(),SimDateActivity.class);
-                intentDate.putExtra("tag","start");
+                Intent intentDate = new Intent(getApplicationContext(),SimCustomerActivity.class);
+                intentDate.putExtra("tag","BY_DATE");
                 startActivity(intentDate);
 
             }
@@ -60,8 +60,8 @@ public class ReportsSimActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: byPrice");
                 Log.d(TAG, "onClick: byDate");
-                Intent intentPrice = new Intent(getApplicationContext(),SimPriceActivity.class);
-                intentPrice.putExtra("tag","start");
+                Intent intentPrice = new Intent(getApplicationContext(),SimCustomerActivity.class);
+                intentPrice.putExtra("tag","BY_PRICE");
                 startActivity(intentPrice);
 
             }

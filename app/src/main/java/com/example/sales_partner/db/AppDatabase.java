@@ -62,6 +62,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO assemblies (id, description) VALUES (5, 'Professional #2')");
                             db.execSQL("INSERT INTO assemblies (id, description) VALUES (6, 'Gamer #1')");
                             db.execSQL("INSERT INTO assemblies (id, description) VALUES (7, 'Gamer #2')");
+                            db.execSQL("INSERT INTO assemblies (id, description) VALUES (8, 'Test Assembly')");
 
                             //ORDER STATUS
                             db.execSQL("INSERT INTO order_status (id, description, editable, previous, next) VALUES (0, 'Pendiente', 1, '-', '1,2')");
@@ -80,6 +81,8 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (6, 2, 1, '2017-03-05', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (7, 0, 4, '2017-03-12', NULL)");
                             db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (8, 0, 3, '2017-03-18', NULL)");
+
+                            db.execSQL("INSERT INTO orders (id, status_id, customer_id, date, change_log) VALUES (9, 0, 7, '2019-04-29', NULL)");
 
                             //ORDERS ASSEMBLIES
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (0, 0, 2)");
@@ -112,6 +115,8 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 0, 1)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 6, 5)");
                             db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (8, 7, 3)");
+
+                            db.execSQL("INSERT INTO order_assemblies (id, assembly_id, qty) VALUES (9, 8, 1)");
 
                             //ASSEMBLIES_PRODUCTS
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (0, 101, 1)");
@@ -170,6 +175,8 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 504, 2)");
                             db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (7, 605, 1)");
 
+                            db.execSQL("INSERT INTO assembly_products (id, product_id, qty) VALUES (8, 1, 1)");
+
                             // CUSTOMERS
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (1, 'Manuel', 'Vázquez', 'C.59A x 90 y 94, Fracc. Los Almendros', '998-3568541', NULL, NULL, 'manuelvz@outlook.com')");
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (2, 'José', 'Medina', 'C.42 x 51 y 53, Col. Centro', '997-5491235', '997-4561289', NULL, 'medina96@yahoo.com')");
@@ -177,6 +184,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (4, 'Gabriel', 'Alemán', 'Av. Justo Madero x 44, Col. Boulevard', NULL, NULL, NULL, 'gabasoluciones@live.com')");
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (5, 'Perla', 'Montalvo', 'C.101B x 98 y 100, Fracc. Vista Alegre', '977-4612536', '995-1268745', NULL, NULL)");
                             db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (6, 'Alfredo', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx')");
+                            db.execSQL("INSERT INTO customers (id, first_name, last_name, address, phone1, phone2, phone3, e_mail) VALUES (7, 'Alfredo2', 'Huerta', 'C.23 x 32 y 36A, Col. Cantaritos', NULL, NULL, NULL, 'huerta78@alpha.com.mx')");
 
                             // INSERT PRODUCTS
                             db.execSQL("INSERT INTO products (id, category_id, description, price, qty) VALUES (0, 0, 'Western Digital Purple WD10PURX, 3.5\", 1TB, SATA3, 6GB/s, 64MB, IntelliPower', 149900, 2)");

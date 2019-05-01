@@ -60,6 +60,7 @@ public class Assembly implements Serializable {
     public  int stockStatus;
     public static final int STATUS_OUT_OF_STOCK = 1;
     public static final int STATUS_CAN_DO = 2;
+    public static final int STATUS_CANT_DO = 3;
 
     public void retrieveProducts(AssemblyProductsDao assemblyProductsDao){
         products = assemblyProductsDao.findByAssemblyId(id);

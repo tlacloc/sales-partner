@@ -86,10 +86,31 @@ public class Order {
 
     @Ignore
     public List<Assembly> assemblies;
+    @Ignore
+    public  int stockStatus;
+    public static final int STATUS_OUT_OF_STOCK = 1;
+    public static final int STATUS_CAN_DO = 2;
+    public static final int STATUS_CANT_DO = 3;
 
     public List<Assembly> retrieveAssemblies(OrderAssembliesDao orderAssembliesDao){
         assemblies = orderAssembliesDao.findByOrderId(this.id);
         return assemblies;
+    }
+
+    public static String getOrderText(int stockStatus){
+        String r = "";
+        switch (stockStatus){
+            case STATUS_CAN_DO:
+                r = "Confirmado";
+                break;
+            case STATUS_CANT_DO:
+                r = "No existe productos para confirmarlo";
+                break;
+            case STATUS_OUT_OF_STOCK:
+                r = "Faltan algunos productos para confirmarlo";
+                break;
+        }
+        return r;
     }
 
     public int canDo(List<Product> products, List<Product> productsToGetOut, int assemblyQty){

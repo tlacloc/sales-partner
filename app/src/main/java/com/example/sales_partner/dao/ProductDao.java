@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface ProductDao {
 
-    @Query("SELECT * FROM products ORDER BY description ASC")
+    @Query("SELECT * FROM products ORDER BY id ASC")
     List<Product> getAll();
 
     @Query("SELECT * FROM products WHERE category_id = :catId ORDER BY description ASC")
